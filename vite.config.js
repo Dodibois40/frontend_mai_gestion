@@ -18,8 +18,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
-          ui: ['lucide-react'],
-          pdf: ['react-pdf']
+          ui: ['lucide-react']
         }
       }
     }
@@ -41,7 +40,7 @@ export default defineConfig({
       }
     }
   },
-  optimizeDeps: {
-    include: ['react-pdf']
-  }
+  // optimizeDeps: {
+  //   include: ['react-pdf'] - TEMPORAIREMENT SUPPRIMÉ
+  // }
 })
