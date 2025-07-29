@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Authentification Frontend</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-container { max-width: 800px; margin: 0 auto; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .warning { background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔐 Test Authentification Frontend</h1>
+        
+        <div>
+            <h2>Test avec fetch()</h2>
+            <button onclick="testWithFetch()">Test avec admin@example.com</button>
+            <button onclick="testWithFetchWrong()">Test avec mauvais identifiants</button>
+        </div>
+        
+        <div>
+            <h2>Test avec XMLHttpRequest</h2>
+            <button onclick="testWithXHR()">Test XHR admin@example.com</button>
+        </div>
+        
+        <div>
+            <h2>Test connectivité backend</h2>
+            <button onclick="testBackendHealth()">Test /health</button>
+            <button onclick="testCORS()">Test CORS</button>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function addResult(title, status, data) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `
+                <h3>${title}</h3>
+                <pre>${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}</pre>
+            `;
+            results.appendChild(div);
+            div.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function testWithFetch() {
+            try {
+                console.log('🧪 Test avec fetch() - admin@example.com');
+                
+                const response = await fetch('http://localhost:8000/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@example.com',
+                        password: 'admin123'
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()]);
+                
+                const data = await response.text();
+                let parsedData;
+                try {
+                    parsedData = JSON.parse(data);
+                } catch (e) {
+                    parsedData = data;
+                }
+                
+                if (response.ok || response.status === 201) {
+                    addResult(
+                        '✅ Test fetch() avec admin@example.com',
+                        'success',
+                        {
+                            status: response.status,
+                            statusText: response.statusText,
+                            data: parsedData
+                        }
+                    );
+                } else {
+                    addResult(
+                        '❌ Test fetch() avec admin@example.com',
+                        'error',
+                        {
+                            status: response.status,
+                            statusText: response.statusText,
+                            data: parsedData
+                        }
+                    );
+                }
+                
+            } catch (error) {
+                console.error('Erreur fetch:', error);
+                addResult(
+                    '❌ Erreur fetch() - admin@example.com',
+                    'error',
+                    {
+                        error: error.message,
+                        stack: error.stack
+                    }
+                );
+            }
+        }
+
+        async function testWithFetchWrong() {
+            try {
+                console.log('🧪 Test avec mauvais identifiants');
+                
+                const response = await fetch('http://localhost:8000/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@example.com',
+                        password: 'wrongpassword'
+                    })
+                });
+                
+                const data = await response.text();
+                let parsedData;
+                try {
+                    parsedData = JSON.parse(data);
+                } catch (e) {
+                    parsedData = data;
+                }
+                
+                addResult(
+                    response.status === 401 ? '✅ Test mauvais identifiants (401 attendu)' : '❌ Test mauvais identifiants',
+                    response.status === 401 ? 'success' : 'error',
+                    {
+                        status: response.status,
+                        statusText: response.statusText,
+                        data: parsedData
+                    }
+                );
+                
+            } catch (error) {
+                addResult(
+                    '❌ Erreur test mauvais identifiants',
+                    'error',
+                    error.message
+                );
+            }
+        }
+
+        async function testWithXHR() {
+            try {
+                console.log('🧪 Test avec XMLHttpRequest');
+                
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:8000/auth/login', true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4) {
+                        let data;
+                        try {
+                            data = JSON.parse(xhr.responseText);
+                        } catch (e) {
+                            data = xhr.responseText;
+                        }
+                        
+                        if (xhr.status === 200 || xhr.status === 201) {
+                            addResult(
+                                '✅ Test XHR admin@example.com',
+                                'success',
+                                {
+                                    status: xhr.status,
+                                    statusText: xhr.statusText,
+                                    data: data
+                                }
+                            );
+                        } else {
+                            addResult(
+                                '❌ Test XHR admin@example.com',
+                                'error',
+                                {
+                                    status: xhr.status,
+                                    statusText: xhr.statusText,
+                                    data: data
+                                }
+                            );
+                        }
+                    }
+                };
+                
+                xhr.send(JSON.stringify({
+                    email: 'admin@example.com',
+                    password: 'admin123'
+                }));
+                
+            } catch (error) {
+                addResult(
+                    '❌ Erreur XHR',
+                    'error',
+                    error.message
+                );
+            }
+        }
+
+        async function testBackendHealth() {
+            try {
+                const response = await fetch('http://localhost:8000/health');
+                const data = await response.text();
+                
+                addResult(
+                    response.ok ? '✅ Backend Health OK' : '❌ Backend Health Error',
+                    response.ok ? 'success' : 'error',
+                    {
+                        status: response.status,
+                        data: data
+                    }
+                );
+            } catch (error) {
+                addResult(
+                    '❌ Erreur Health Check',
+                    'error',
+                    error.message
+                );
+            }
+        }
+
+        async function testCORS() {
+            try {
+                const response = await fetch('http://localhost:8000/auth/login', {
+                    method: 'OPTIONS'
+                });
+                
+                const headers = {};
+                response.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                
+                addResult(
+                    '🌐 Test CORS Preflight',
+                    'warning',
+                    {
+                        status: response.status,
+                        headers: headers
+                    }
+                );
+            } catch (error) {
+                addResult(
+                    '❌ Erreur CORS',
+                    'error',
+                    error.message
+                );
+            }
+        }
+
+        // Test automatique au chargement
+        window.onload = function() {
+            addResult(
+                '🚀 Page de test chargée',
+                'success',
+                'Tests d\'authentification prêts. Frontend: http://localhost:8080, Backend: http://localhost:8000'
+            );
+        };
+    </script>
+</body>
+</html> 

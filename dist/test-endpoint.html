@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Planning Affaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border-left: 4px solid #007AFF;
+        }
+        .error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        pre {
+            background: #f1f3f4;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test API Planning Affaire</h1>
+    
+    <div class="test-section">
+        <h2>🔑 Authentification</h2>
+        <button onclick="testAuthentication()">Test Authentification</button>
+        <div id="auth-status">
+            <p>Statut: <span id="auth-indicator">Non authentifié</span></p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>1. Test Liste des Affaires</h2>
+        <button onclick="testListeAffaires()">Récupérer toutes les affaires</button>
+        <div id="result-affaires"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Test Affectations pour une Affaire</h2>
+        <label for="affaire-id">ID Affaire:</label>
+        <input type="text" id="affaire-id" placeholder="Entrez l'ID d'une affaire" value="11">
+        <button onclick="testAffectationsAffaire()">Récupérer les affectations</button>
+        <div id="result-affectations"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Test Recherche Affaire WWWWW</h2>
+        <button onclick="chercherAffaireWWWWW()">Chercher affaire WWWWW</button>
+        <div id="result-wwwww"></div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let authToken = null;
+        
+        // Fonction d'authentification
+        async function authenticate() {
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@example.com',
+                        password: 'admin123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.access_token;
+                    console.log('✅ Authentification réussie');
+                    return true;
+                } else {
+                    console.log('❌ Échec de l\'authentification');
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Erreur d\'authentification:', error);
+                return false;
+            }
+        }
+        
+        // Fonction pour faire des requêtes authentifiées
+        async function fetchWithAuth(url, options = {}) {
+            if (!authToken) {
+                const authSuccess = await authenticate();
+                if (!authSuccess) {
+                    throw new Error('Impossible de s\'authentifier');
+                }
+                updateAuthStatus();
+            }
+            
+            return fetch(url, {
+                ...options,
+                headers: {
+                    ...options.headers,
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
+        
+        // Fonction pour tester l'authentification manuellement
+        async function testAuthentication() {
+            const authIndicator = document.getElementById('auth-indicator');
+            authIndicator.textContent = 'Test en cours...';
+            
+            const success = await authenticate();
+            updateAuthStatus();
+            
+            if (success) {
+                alert('✅ Authentification réussie !');
+            } else {
+                alert('❌ Échec de l\'authentification');
+            }
+        }
+        
+        // Mettre à jour le statut d'authentification
+        function updateAuthStatus() {
+            const authIndicator = document.getElementById('auth-indicator');
+            if (authToken) {
+                authIndicator.textContent = '✅ Authentifié';
+                authIndicator.style.color = 'green';
+            } else {
+                authIndicator.textContent = '❌ Non authentifié';
+                authIndicator.style.color = 'red';
+            }
+        }
+        
+        async function testListeAffaires() {
+            const resultDiv = document.getElementById('result-affaires');
+            resultDiv.innerHTML = '<p>Authentification et chargement...</p>';
+            
+            try {
+                const response = await fetchWithAuth(`${API_BASE}/affaires`);
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h3>✅ Succès</h3>
+                        <p><strong>Nombre d'affaires:</strong> ${data.length}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Erreur</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function testAffectationsAffaire() {
+            const affaireId = document.getElementById('affaire-id').value;
+            const resultDiv = document.getElementById('result-affectations');
+            
+            if (!affaireId) {
+                resultDiv.innerHTML = '<div class="result error">Veuillez entrer un ID d\'affaire</div>';
+                return;
+            }
+            
+            resultDiv.innerHTML = '<p>Authentification et chargement...</p>';
+            
+            try {
+                const response = await fetchWithAuth(`${API_BASE}/planning-equipe/affaire/${affaireId}/affectations`);
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div class="result">
+                        <h3>✅ Succès</h3>
+                        <p><strong>Nombre d'affectations:</strong> ${data.affectations?.length || 0}</p>
+                        <p><strong>Totaux:</strong> ${data.totaux ? JSON.stringify(data.totaux) : 'Aucun'}</p>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Erreur</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        async function chercherAffaireWWWWW() {
+            const resultDiv = document.getElementById('result-wwwww');
+            resultDiv.innerHTML = '<p>Authentification et recherche de l\'affaire WWWWW...</p>';
+            
+            try {
+                const response = await fetchWithAuth(`${API_BASE}/affaires`);
+                const affaires = await response.json();
+                
+                const affaireWWWWW = affaires.find(a => 
+                    a.numero === 'WWWWW' || 
+                    a.numero.includes('WWWWW') ||
+                    a.libelle === 'WWWWW' ||
+                    a.libelle.includes('WWWWW')
+                );
+                
+                if (affaireWWWWW) {
+                    document.getElementById('affaire-id').value = affaireWWWWW.id;
+                    
+                    resultDiv.innerHTML = `
+                        <div class="result">
+                            <h3>✅ Affaire WWWWW trouvée!</h3>
+                            <p><strong>ID:</strong> ${affaireWWWWW.id}</p>
+                            <p><strong>Numéro:</strong> ${affaireWWWWW.numero}</p>
+                            <p><strong>Libellé:</strong> ${affaireWWWWW.libelle}</p>
+                            <p><strong>Client:</strong> ${affaireWWWWW.client}</p>
+                            <pre>${JSON.stringify(affaireWWWWW, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            <h3>❌ Affaire WWWWW non trouvée</h3>
+                            <p>Aucune affaire avec le numéro ou libellé WWWWW n'a été trouvée.</p>
+                            <p><strong>Affaires disponibles:</strong></p>
+                            <ul>
+                                ${affaires.map(a => `<li>${a.numero} - ${a.libelle} (ID: ${a.id})</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <h3>❌ Erreur</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Auto-test au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🧪 Page de test chargée');
+            console.log('💡 Utilisez les boutons pour tester l\'API');
+            updateAuthStatus(); // Initialiser le statut d'authentification
+        });
+    </script>
+</body>
+</html> 

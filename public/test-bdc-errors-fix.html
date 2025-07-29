@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Corrections erreurs BDC</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen py-8">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 bg-green-100 rounded-lg">
+                    <i class="fas fa-bug-slash text-green-600 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Test - Corrections erreurs BDC</h1>
+                    <p class="text-gray-600">Validation des corrections des erreurs 400 (Bad Request)</p>
+                </div>
+            </div>
+
+            <!-- Résumé des corrections -->
+            <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                <h2 class="font-bold text-blue-900 mb-3">
+                    <i class="fas fa-tools text-blue-600 mr-2"></i>
+                    Corrections apportées
+                </h2>
+                <div class="space-y-2 text-blue-800">
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-check text-green-600 mt-1"></i>
+                        <span><strong>Frontend :</strong> Correction de l'appel <code>receptionnerBdc(bdcId)</code> → <code>receptionnerBdc(bdcId, new Date())</code></span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-check text-green-600 mt-1"></i>
+                        <span><strong>Backend :</strong> Ajout des décorateurs de validation au <code>ReceptionBdcDto</code></span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa="check text-green-600 mt-1"></i>
+                        <span><strong>Backend :</strong> Import des décorateurs <code>@ApiProperty</code>, <code>@IsDate</code>, <code>@Type</code></span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fas fa-check text-green-600 mt-1"></i>
+                        <span><strong>PDF :</strong> Correction de l'erreur <code>Cannot read properties of null (reading 'fileName')</code></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problèmes identifiés -->
+            <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+                <h2 class="font-bold text-red-900 mb-3">
+                    <i class="fas fa-exclamation-triangle text-red-600 mr-2"></i>
+                    Problèmes identifiés avant correction
+                </h2>
+                <div class="space-y-3">
+                    <div class="bg-white p-3 rounded border-l-4 border-red-400">
+                        <div class="font-semibold text-red-800">Erreur 400 - Réception BDC</div>
+                        <div class="text-red-700 text-sm font-mono">❌ /api/bdc/{id}/receptionner</div>
+                        <div class="text-red-600 text-sm mt-1">
+                            <strong>Cause :</strong> <code>AffaireBdcSectionReal.jsx</code> appelait <code>receptionnerBdc(bdcId)</code> sans passer la date
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded border-l-4 border-red-400">
+                        <div class="font-semibold text-red-800">Erreur 400 - Suppression BDC</div>
+                        <div class="text-red-700 text-sm font-mono">❌ DELETE /api/bdc/{id}</div>
+                        <div class="text-red-600 text-sm mt-1">
+                            <strong>Cause :</strong> Validation du <code>ReceptionBdcDto</code> sans décorateurs appropriés
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-3 rounded border-l-4 border-orange-400">
+                        <div class="font-semibold text-orange-800">Erreur PDF Upload</div>
+                        <div class="text-orange-700 text-sm font-mono">❌ TypeError: Cannot read properties of null (reading 'fileName')</div>
+                        <div class="text-orange-600 text-sm mt-1">
+                            <strong>Cause :</strong> <code>handlePdfUploadSuccess</code> ne gérait pas le cas <code>result === null</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tests à effectuer -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                <h2 class="font-bold text-yellow-900 mb-3">
+                    <i class="fas fa-clipboard-check text-yellow-600 mr-2"></i>
+                    Tests à effectuer
+                </h2>
+                <div class="space-y-2 text-yellow-800">
+                    <div class="flex items-start gap-2">
+                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs font-bold">1</span>
+                        <span>Créer un nouveau BDC et tenter de le réceptionner</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs font-bold">2</span>
+                        <span>Uploader un PDF sur un BDC puis le supprimer</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs font-bold">3</span>
+                        <span>Valider un BDC puis tenter de le supprimer (avec mot de passe)</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <span class="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs font-bold">4</span>
+                        <span>Vérifier que les dates de livraison s'affichent correctement</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Détails techniques -->
+            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                <h2 class="font-bold text-gray-900 mb-3">
+                    <i class="fas fa-code text-gray-600 mr-2"></i>
+                    Détails techniques des corrections
+                </h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">1. Frontend - AffaireBdcSectionReal.jsx</h3>
+                        <div class="bg-white p-3 rounded border text-sm">
+                            <div class="text-red-600 mb-1">❌ Avant :</div>
+                            <code class="text-red-700">await receptionnerBdc(bdcId);</code>
+                            <div class="text-green-600 mt-2 mb-1">✅ Après :</div>
+                            <code class="text-green-700">await receptionnerBdc(bdcId, new Date());</code>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">2. Backend - ReceptionBdcDto</h3>
+                        <div class="bg-white p-3 rounded border text-sm">
+                            <div class="text-red-600 mb-1">❌ Avant :</div>
+                            <pre class="text-red-700">class ReceptionBdcDto {
+  dateReception: Date;
+}</pre>
+                            <div class="text-green-600 mt-2 mb-1">✅ Après :</div>
+                            <pre class="text-green-700">class ReceptionBdcDto {
+  @ApiProperty({
+    description: 'Date de réception du bon de commande',
+    example: '2024-03-15T10:30:00Z',
+  })
+  @IsDate()
+  @Type(() => Date)
+  dateReception: Date;
+}</pre>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">3. Frontend - handlePdfUploadSuccess</h3>
+                        <div class="bg-white p-3 rounded border text-sm">
+                            <div class="text-green-600 mb-1">✅ Correction :</div>
+                            <pre class="text-green-700">if (result === null) {
+  // Gestion spécifique de la suppression
+  const updateData = {
+    nomFichier: null,
+    tailleFichier: null,
+    // ...
+  };
+  // Continuer le traitement
+}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statut des serveurs -->
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                <h2 class="font-bold text-green-900 mb-3">
+                    <i class="fas fa-server text-green-600 mr-2"></i>
+                    Statut des serveurs
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-3 rounded border">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="font-semibold">Backend NestJS</span>
+                        </div>
+                        <div class="text-sm text-gray-600">Port 8000</div>
+                        <div class="text-xs text-gray-500">http://localhost:8000</div>
+                    </div>
+                    
+                    <div class="bg-white p-3 rounded border">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                            <span class="font-semibold">Frontend React</span>
+                        </div>
+                        <div class="text-sm text-gray-600">Port 8080</div>
+                        <div class="text-xs text-gray-500">http://localhost:8080</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instructions de test -->
+            <div class="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h3 class="font-bold text-blue-900 mb-2">
+                    <i class="fas fa-play text-blue-600 mr-2"></i>
+                    Instructions de test
+                </h3>
+                <ol class="list-decimal list-inside space-y-1 text-blue-800 text-sm">
+                    <li>Ouvrir l'application : <a href="http://localhost:8080" class="underline" target="_blank">http://localhost:8080</a></li>
+                    <li>Se connecter avec un compte admin</li>
+                    <li>Aller dans une affaire → Onglet "Achats"</li>
+                    <li>Créer un nouveau BDC avec une date de livraison</li>
+                    <li>Tester la réception du BDC (ne devrait plus donner d'erreur 400)</li>
+                    <li>Uploader un PDF puis le supprimer (ne devrait plus planter)</li>
+                    <li>Valider le BDC puis tenter de le supprimer avec le mot de passe "1234"</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Fournisseur</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 300px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 20px; padding: 10px; border-radius: 4px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>Debug Fournisseur - Test de Création</h1>
+    
+    <div class="form-group">
+        <h3>1. Authentification</h3>
+        <button onclick="login()">Se connecter (admin@example.com)</button>
+        <div id="auth-status"></div>
+    </div>
+    
+    <div class="form-group">
+        <h3>2. Test de création de fournisseur</h3>
+        <form id="fournisseur-form">
+            <div class="form-group">
+                <label for="nom">Nom du fournisseur:</label>
+                <input type="text" id="nom" name="nom" value="Test Debug 2025" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="categorie">Catégorie:</label>
+                <select id="categorie" name="categorie">
+                    <option value="">-- Aucune catégorie --</option>
+                    <option value="QUINCAILLERIE">Quincaillerie</option>
+                    <option value="BOIS">Bois</option>
+                    <option value="VITRAGE">Vitrage</option>
+                    <option value="MENUISERIE">Menuiserie</option>
+                    <option value="AGENCEMENT">Agencement</option>
+                    <option value="FERRONNERIE">Ferronnerie</option>
+                    <option value="PEINTURE">Peinture</option>
+                    <option value="ELECTRICITE">Électricité</option>
+                    <option value="PLOMBERIE">Plomberie</option>
+                    <option value="ISOLATION">Isolation</option>
+                    <option value="OUTILLAGE">Outillage</option>
+                    <option value="AUTRE">Autre</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="codeClient">Code client (optionnel):</label>
+                <input type="text" id="codeClient" name="codeClient" value="DEBUG-001">
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="enCompte" name="enCompte" checked> En compte
+                </label>
+            </div>
+            
+            <button type="submit">Créer le fournisseur</button>
+        </form>
+    </div>
+    
+    <div id="result"></div>
+    
+    <script>
+        const API_BASE = 'http://localhost:8000/api';
+        let authToken = null;
+        
+        // Fonction de connexion
+        async function login() {
+            const statusDiv = document.getElementById('auth-status');
+            statusDiv.innerHTML = '<div class="info">Connexion en cours...</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: 'admin@example.com',
+                        password: 'admin123'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    authToken = data.accessToken;
+                    statusDiv.innerHTML = '<div class="success">✅ Connecté avec succès!</div>';
+                    console.log('Token récupéré:', authToken.substring(0, 50) + '...');
+                } else {
+                    const error = await response.text();
+                    statusDiv.innerHTML = `<div class="error">❌ Erreur de connexion: ${error}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `<div class="error">❌ Erreur réseau: ${error.message}</div>`;
+                console.error('Erreur de connexion:', error);
+            }
+        }
+        
+        // Gestionnaire du formulaire
+        document.getElementById('fournisseur-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!authToken) {
+                document.getElementById('result').innerHTML = '<div class="error">❌ Veuillez d\'abord vous connecter</div>';
+                return;
+            }
+            
+            const formData = new FormData(e.target);
+            const fournisseurData = {
+                nom: formData.get('nom'),
+                codeClient: formData.get('codeClient') || null,
+                enCompte: formData.has('enCompte')
+            };
+            
+            // Ajouter la catégorie seulement si elle est sélectionnée
+            const categorie = formData.get('categorie');
+            if (categorie) {
+                fournisseurData.categorie = categorie;
+            }
+            
+            console.log('Données à envoyer:', fournisseurData);
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="info">Création en cours...</div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/fournisseurs`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(fournisseurData)
+                });
+                
+                const responseData = await response.text();
+                
+                if (response.ok) {
+                    const data = JSON.parse(responseData);
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            ✅ Fournisseur créé avec succès!<br>
+                            <strong>ID:</strong> ${data.id}<br>
+                            <strong>Nom:</strong> ${data.nom}<br>
+                            <strong>Catégorie:</strong> ${data.categorie || 'Aucune'}<br>
+                            <strong>Code client:</strong> ${data.codeClient || 'Aucun'}
+                        </div>
+                    `;
+                    
+                    // Réinitialiser le formulaire avec un nouveau nom
+                    document.getElementById('nom').value = 'Test Debug ' + Date.now();
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="error">
+                            ❌ Erreur ${response.status}: ${responseData}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">❌ Erreur réseau: ${error.message}</div>`;
+                console.error('Erreur de création:', error);
+            }
+        });
+        
+        // Auto-connexion au chargement
+        window.addEventListener('load', () => {
+            login();
+        });
+    </script>
+</body>
+</html> 

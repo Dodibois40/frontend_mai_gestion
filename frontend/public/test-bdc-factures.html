@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Test BDC & Factures - Positionnement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .status-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .status-section h2 {
+            color: #28a745;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .status-list {
+            list-style: none;
+        }
+        
+        .status-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .status-list li::before {
+            content: "✅";
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .test-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e9ecef;
+        }
+        
+        .test-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .test-section h3::before {
+            content: "🔧";
+            margin-right: 10px;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            color: #495057;
+            border: 1px solid #dee2e6;
+            margin: 10px 0;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .success-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .instructions {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #bbdefb;
+            margin-top: 30px;
+        }
+        
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .alert {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .alert strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Test BDC & Factures</h1>
+            <p>Vérification du positionnement des sections sous le menu</p>
+        </div>
+        
+        <div class="content">
+            <div class="status-section">
+                <h2>✅ Corrections Appliquées</h2>
+                <ul class="status-list">
+                    <li>Erreur JSX corrigée dans AffaireFacturesSection</li>
+                    <li>En-têtes dupliqués supprimés des composants enfants</li>
+                    <li>Structure de layout améliorée dans AffaireAchatsUnified</li>
+                    <li>Positionnement forcé avec position: relative</li>
+                    <li>Serveurs backend et frontend redémarrés</li>
+                </ul>
+            </div>
+            
+            <div class="test-section">
+                <h3>Problème Résolu</h3>
+                <p>Les sections <span class="highlight">"Bons de Commande"</span> et <span class="highlight">"Factures d'Achats"</span> s'affichaient au niveau de l'en-tête au lieu d'être sous le menu des onglets.</p>
+                
+                <div class="code-block">
+                    Avant: Sections flottantes au niveau de l'en-tête<br>
+                    Après: Sections correctement positionnées sous le menu
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>Modifications Techniques</h3>
+                <p><strong>1. AffaireAchatsUnified.jsx</strong> - Composant parent :</p>
+                <div class="code-block">
+                    + En-têtes unifiés avec icônes et descriptions<br>
+                    + Position relative forcée (position: relative)<br>
+                    + Structure de grid améliorée (lg:grid-cols-2)
+                </div>
+                
+                <p><strong>2. AffaireBdcSectionReal.jsx</strong> - Section BDC :</p>
+                <div class="code-block">
+                    - En-tête supprimé (évite duplication)<br>
+                    + Contenu directement affiché<br>
+                    + Layout responsive amélioré
+                </div>
+                
+                <p><strong>3. AffaireFacturesSection.jsx</strong> - Section Factures :</p>
+                <div class="code-block">
+                    - En-tête supprimé (évite duplication)<br>
+                    - Erreur JSX corrigée<br>
+                    + Structure JSX validée
+                </div>
+            </div>
+            
+            <div class="alert">
+                <strong>⚠️ Note Importante</strong>
+                Les corrections ont été appliquées. Les sections "Bons de Commande" et "Factures d'Achats" devraient maintenant s'afficher correctement sous le menu des onglets dans l'interface principale.
+            </div>
+            
+            <div class="instructions">
+                <h3>📋 Instructions de Test</h3>
+                <ol>
+                    <li>Ouvrez l'application principale sur <strong>http://localhost:8080</strong></li>
+                    <li>Connectez-vous avec vos identifiants</li>
+                    <li>Naviguez vers une <strong>Affaire</strong> existante</li>
+                    <li>Cliquez sur l'onglet <strong>"Achats"</strong></li>
+                    <li>Vérifiez que les sections "Bons de Commande" et "Factures d'Achats" s'affichent <strong>sous</strong> l'en-tête et les onglets</li>
+                    <li>Testez la création d'un nouveau BDC avec auto-sélection de catégorie</li>
+                    <li>Testez la date de livraison avec encadrement visuel</li>
+                </ol>
+            </div>
+            
+            <div class="test-section">
+                <h3>🔍 Points de Vérification</h3>
+                <ul class="status-list">
+                    <li>Les sections ne flottent plus au niveau de l'en-tête</li>
+                    <li>Elles s'affichent dans la zone de contenu des onglets</li>
+                    <li>Le layout est responsive (2 colonnes sur grand écran)</li>
+                    <li>Les en-têtes des sections sont unifiés et cohérents</li>
+                    <li>Auto-sélection fournisseur → catégorie fonctionne</li>
+                    <li>Date de livraison avec badges visuels</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Vérification automatique des serveurs
+        async function checkServers() {
+            try {
+                const backendResponse = await fetch('http://localhost:8000/api/health').catch(() => null);
+                const frontendResponse = await fetch('http://localhost:8080').catch(() => null);
+                
+                console.log('Backend (8000):', backendResponse ? '✅ Actif' : '❌ Inactif');
+                console.log('Frontend (8080):', frontendResponse ? '✅ Actif' : '❌ Inactif');
+            } catch (error) {
+                console.log('Vérification des serveurs:', error.message);
+            }
+        }
+        
+        // Vérification au chargement
+        checkServers();
+        
+        // Vérification périodique
+        setInterval(checkServers, 30000);
+        
+        console.log('🧪 Page de test chargée - Vérifiez la console pour le statut des serveurs');
+    </script>
+</body>
+</html> 

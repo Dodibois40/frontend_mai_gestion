@@ -1,0 +1,429 @@
+/* Styles personnalisés pour le calendrier DateTimePicker */
+
+/* Amélioration du popup du calendrier */
+.mantine-Popover-dropdown {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e9ecef !important;
+  overflow: hidden;
+}
+
+/* En-tête du calendrier */
+.mantine-DatePicker-calendarHeader {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e9ecef !important;
+  padding: 16px !important;
+}
+
+.mantine-DatePicker-calendarHeaderControl {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.mantine-DatePicker-calendarHeaderLevel {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+}
+
+/* Jours du calendrier */
+.mantine-DatePicker-day {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  width: 36px !important;
+  height: 36px !important;
+  position: relative !important;
+}
+
+.mantine-DatePicker-day:hover {
+  background-color: #e7f5ff !important;
+  transform: scale(1.05) !important;
+}
+
+/* Date sélectionnée - Style principal */
+.mantine-DatePicker-day[data-selected] {
+  background-color: #228be6 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.3) !important;
+  position: relative !important;
+}
+
+/* Indicateur pour date de début */
+.mantine-DatePicker-day[data-selected]::before {
+  content: "🚀" !important;
+  position: absolute !important;
+  top: -2px !important;
+  right: -2px !important;
+  font-size: 8px !important;
+  background: #40c057 !important;
+  border-radius: 50% !important;
+  width: 12px !important;
+  height: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid white !important;
+}
+
+/* Style spécial pour date de fin */
+.mantine-DatePicker-day[data-selected][data-end-date]::before {
+  content: "🏁" !important;
+  background: #fd7e14 !important;
+}
+
+/* Bordure spéciale pour les dates importantes */
+.mantine-DatePicker-day[data-selected] {
+  border: 2px solid #40c057 !important;
+  box-shadow: 0 0 0 2px rgba(64, 192, 87, 0.2), 0 2px 8px rgba(34, 139, 230, 0.3) !important;
+}
+
+.mantine-DatePicker-day[data-selected][data-end-date] {
+  border: 2px solid #fd7e14 !important;
+  box-shadow: 0 0 0 2px rgba(253, 126, 20, 0.2), 0 2px 8px rgba(34, 139, 230, 0.3) !important;
+}
+
+/* Styles spécifiques pour les calendriers de début */
+[data-date-type="start"] .mantine-DatePicker-day[data-selected] {
+  border: 2px solid #40c057 !important;
+  box-shadow: 0 0 0 2px rgba(64, 192, 87, 0.2), 0 2px 8px rgba(64, 192, 87, 0.3) !important;
+}
+
+[data-date-type="start"] .mantine-DatePicker-day[data-selected]::before {
+  content: "🚀" !important;
+  background: #40c057 !important;
+}
+
+[data-date-type="start"] .mantine-Popover-dropdown {
+  border-left: 4px solid #40c057 !important;
+}
+
+[data-date-type="start"] .mantine-DatePicker-calendarHeader {
+  background: linear-gradient(135deg, #40c057 0%, #51cf66 100%) !important;
+  color: white !important;
+}
+
+[data-date-type="start"] .mantine-DatePicker-calendarHeaderLevel {
+  color: white !important;
+}
+
+[data-date-type="start"] .mantine-DatePicker-calendarHeaderControl {
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-date-type="start"] .mantine-DatePicker-calendarHeaderControl:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* Styles spécifiques pour les calendriers de fin */
+[data-date-type="end"] .mantine-DatePicker-day[data-selected] {
+  border: 2px solid #fd7e14 !important;
+  box-shadow: 0 0 0 2px rgba(253, 126, 20, 0.2), 0 2px 8px rgba(253, 126, 20, 0.3) !important;
+}
+
+[data-date-type="end"] .mantine-DatePicker-day[data-selected]::before {
+  content: "🏁" !important;
+  background: #fd7e14 !important;
+}
+
+[data-date-type="end"] .mantine-Popover-dropdown {
+  border-left: 4px solid #fd7e14 !important;
+}
+
+[data-date-type="end"] .mantine-DatePicker-calendarHeader {
+  background: linear-gradient(135deg, #fd7e14 0%, #ff922b 100%) !important;
+  color: white !important;
+}
+
+[data-date-type="end"] .mantine-DatePicker-calendarHeaderLevel {
+  color: white !important;
+}
+
+[data-date-type="end"] .mantine-DatePicker-calendarHeaderControl {
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+[data-date-type="end"] .mantine-DatePicker-calendarHeaderControl:hover {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+/* Aujourd'hui */
+.mantine-DatePicker-day[data-today] {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+  font-weight: 600 !important;
+  border: 2px solid #ffc107 !important;
+}
+
+.mantine-DatePicker-day[data-today][data-selected] {
+  background-color: #228be6 !important;
+  color: white !important;
+}
+
+/* Jours du mois précédent/suivant */
+.mantine-DatePicker-day[data-outside] {
+  color: #adb5bd !important;
+  opacity: 0.5 !important;
+}
+
+/* Sélecteur de mois/année */
+.mantine-DatePicker-monthsList,
+.mantine-DatePicker-yearsList {
+  padding: 12px !important;
+}
+
+.mantine-DatePicker-monthsListCell,
+.mantine-DatePicker-yearsListCell {
+  border-radius: 8px !important;
+  margin: 2px !important;
+}
+
+.mantine-DatePicker-monthsListControl,
+.mantine-DatePicker-yearsListControl {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.mantine-DatePicker-monthsListControl:hover,
+.mantine-DatePicker-yearsListControl:hover {
+  background-color: #e7f5ff !important;
+  transform: scale(1.02) !important;
+}
+
+.mantine-DatePicker-monthsListControl[data-selected],
+.mantine-DatePicker-yearsListControl[data-selected] {
+  background-color: #228be6 !important;
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+/* Sélecteur d'heure */
+.mantine-TimeInput-input {
+  border-radius: 8px !important;
+  border: 1px solid #e9ecef !important;
+  font-weight: 500 !important;
+}
+
+.mantine-TimeInput-input:focus {
+  border-color: #228be6 !important;
+  box-shadow: 0 0 0 2px rgba(34, 139, 230, 0.1) !important;
+}
+
+/* Amélioration des contrôles de navigation */
+.mantine-DatePicker-calendarHeaderControl:hover {
+  background-color: #e7f5ff !important;
+  color: #228be6 !important;
+}
+
+/* Animation d'ouverture du calendrier */
+.mantine-Popover-dropdown {
+  animation: slideIn 0.2s ease-out !important;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Légende pour les dates */
+.calendar-legend {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  padding: 12px !important;
+  background-color: #f8f9fa !important;
+  border-top: 1px solid #e9ecef !important;
+  font-size: 12px !important;
+  color: #6c757d !important;
+}
+
+.calendar-legend-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+
+.calendar-legend-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+}
+
+.legend-start {
+  background-color: #40c057 !important;
+}
+
+.legend-end {
+  background-color: #fd7e14 !important;
+}
+
+/* Responsive design pour mobile */
+@media (max-width: 768px) {
+  .mantine-Popover-dropdown {
+    width: 90vw !important;
+    max-width: 320px !important;
+  }
+  
+  .mantine-DatePicker-day {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 14px !important;
+  }
+  
+  .mantine-DatePicker-day[data-selected]::before {
+    font-size: 6px !important;
+    width: 10px !important;
+    height: 10px !important;
+  }
+}
+
+/* Styles spécifiques pour DateTimePicker */
+.mantine-DateTimePicker-root .mantine-Popover-dropdown {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e9ecef !important;
+  overflow: hidden;
+}
+
+/* Amélioration du calendrier dans DateTimePicker */
+.mantine-DateTimePicker-root .mantine-DatePicker-calendarHeader {
+  background-color: #f8f9fa !important;
+  border-bottom: 1px solid #e9ecef !important;
+  padding: 16px !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  width: 36px !important;
+  height: 36px !important;
+  position: relative !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day:hover {
+  background-color: #e7f5ff !important;
+  transform: scale(1.05) !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day[data-selected] {
+  background-color: #228be6 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.3) !important;
+  border: 2px solid #40c057 !important;
+  position: relative !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day[data-selected]::before {
+  content: "🚀" !important;
+  position: absolute !important;
+  top: -2px !important;
+  right: -2px !important;
+  font-size: 8px !important;
+  background: #40c057 !important;
+  border-radius: 50% !important;
+  width: 12px !important;
+  height: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid white !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day[data-today] {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+  font-weight: 600 !important;
+  border: 2px solid #ffc107 !important;
+}
+
+.mantine-DateTimePicker-root .mantine-DatePicker-day[data-today][data-selected] {
+  background-color: #228be6 !important;
+  color: white !important;
+}
+
+/* Styles alternatifs avec sélecteurs plus génériques */
+[data-mantine-color-scheme] .mantine-Popover-dropdown {
+  border-radius: 12px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e9ecef !important;
+}
+
+/* Cibler spécifiquement les jours du calendrier */
+button[data-mantine-component="Day"] {
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+  width: 36px !important;
+  height: 36px !important;
+  position: relative !important;
+}
+
+button[data-mantine-component="Day"]:hover {
+  background-color: #e7f5ff !important;
+  transform: scale(1.05) !important;
+}
+
+button[data-mantine-component="Day"][data-selected="true"] {
+  background-color: #228be6 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.3) !important;
+  border: 2px solid #40c057 !important;
+}
+
+button[data-mantine-component="Day"][data-selected="true"]::before {
+  content: "🚀" !important;
+  position: absolute !important;
+  top: -2px !important;
+  right: -2px !important;
+  font-size: 8px !important;
+  background: #40c057 !important;
+  border-radius: 50% !important;
+  width: 12px !important;
+  height: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 1px solid white !important;
+}
+
+/* Styles spécifiques pour les boutons de calendrier de fin */
+[data-date-type="end"] button[data-mantine-component="Day"][data-selected="true"] {
+  border: 2px solid #fd7e14 !important;
+  box-shadow: 0 0 0 2px rgba(253, 126, 20, 0.2), 0 2px 8px rgba(253, 126, 20, 0.3) !important;
+}
+
+[data-date-type="end"] button[data-mantine-component="Day"][data-selected="true"]::before {
+  content: "🏁" !important;
+  background: #fd7e14 !important;
+}
+
+button[data-mantine-component="Day"][data-today="true"] {
+  background-color: #fff3cd !important;
+  color: #856404 !important;
+  font-weight: 600 !important;
+  border: 2px solid #ffc107 !important;
+}
+
+button[data-mantine-component="Day"][data-today="true"][data-selected="true"] {
+  background-color: #228be6 !important;
+  color: white !important;
+}
+
+button[data-mantine-component="Day"][data-outside="true"] {
+  color: #adb5bd !important;
+  opacity: 0.5 !important;
+} 

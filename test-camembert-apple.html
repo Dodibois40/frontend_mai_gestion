@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥧 Camembert Apple - Estimation Affaires</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #007AFF 0%, #8B9B7A 50%, #A67C52 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero p {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.2);
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .demo-card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        
+        .demo-card h3 {
+            color: #007AFF;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .feature-list {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 25px 0;
+        }
+        
+        .feature-list h3 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            border-left: 4px solid #34C759;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .feature-item::before {
+            content: "✨";
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .tech-specs {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tech-specs h4 {
+            color: #34C759;
+            margin-bottom: 15px;
+        }
+        
+        .code-line {
+            color: #E1E1E1;
+            margin: 5px 0;
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .highlight {
+            background: rgba(52, 199, 89, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #34C759;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            margin-top: 30px;
+        }
+        
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #34C759, #30A14E);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(52, 199, 89, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(52, 199, 89, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>🥧 Camembert Apple Design</h1>
+        <p>Visualisation élégante de votre estimation financière avec le style Apple</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">121 564€</div>
+                <div class="stat-label">Montant Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">126</div>
+                <div class="stat-label">Demi-journées</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">89</div>
+                <div class="stat-label">Jours</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Personnes</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2em; margin-bottom: 30px; color: #FFD700;">
+            🎨 Fonctionnalités du Camembert
+        </h2>
+        
+        <div class="feature-list">
+            <h3>✨ Design Apple Authentique</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <strong>Couleurs Apple :</strong> Vert olive #8B9B7A, Terre douce #A67C52, Bleu Apple #007AFF, Vert Apple #34C759
+                </div>
+                <div class="feature-item">
+                    <strong>Gradients radiaux :</strong> Effets de profondeur 3D avec dégradés subtils
+                </div>
+                <div class="feature-item">
+                    <strong>Ombres portées :</strong> Drop shadows avec flou gaussien pour un rendu professionnel
+                </div>
+                <div class="feature-item">
+                    <strong>Typographie Apple :</strong> SF Pro Display avec hiérarchie visuelle claire
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-list">
+            <h3>🎯 Interactions Intelligentes</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <strong>Hover Effects :</strong> Segments qui s'agrandissent au survol avec scale(1.05)
+                </div>
+                <div class="feature-item">
+                    <strong>Légende Interactive :</strong> Synchronisation hover entre camembert et légende
+                </div>
+                <div class="feature-item">
+                    <strong>Animations CSS :</strong> slideIn avec rotation et opacité progressive
+                </div>
+                <div class="feature-item">
+                    <strong>États Visuels :</strong> Feedback visuel immédiat sur toutes les interactions
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-list">
+            <h3>📊 Données Visualisées</h3>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <strong>Achats (20%) :</strong> 24 313€ - Matériaux et fournitures avec icône IconPigMoney
+                </div>
+                <div class="feature-item">
+                    <strong>Main d'œuvre (35%) :</strong> 42 547€ - Temps de travail équipe avec icône IconHammer
+                </div>
+                <div class="feature-item">
+                    <strong>Frais généraux (30%) :</strong> 36 469€ - Charges et administration avec icône IconBuilding
+                </div>
+                <div class="feature-item">
+                    <strong>Marge (15%) :</strong> 18 235€ - Bénéfice estimé avec icône IconTarget
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2em; margin-bottom: 30px; color: #FFD700;">
+            ⚙️ Spécifications Techniques
+        </h2>
+        
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>🎨 Rendu SVG</h3>
+                <div class="tech-specs">
+                    <h4>Calculs Mathématiques</h4>
+                    <div class="code-line">• Conversion pourcentages → angles (deg)</div>
+                    <div class="code-line">• Calcul coordonnées polaires x,y</div>
+                    <div class="code-line">• Gestion arcs > 180° (largeArcFlag)</div>
+                    <div class="code-line">• Génération paths SVG dynamique</div>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🌈 Gradients Radiaux</h3>
+                <div class="tech-specs">
+                    <h4>Effets Visuels</h4>
+                    <div class="code-line">• radialGradient cx="50%" cy="50%"</div>
+                    <div class="code-line">• Couleur claire au centre (0%)</div>
+                    <div class="code-line">• Couleur sombre aux bords (100%)</div>
+                    <div class="code-line">• Effet 3D naturel et élégant</div>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3>⚡ Animations</h3>
+                <div class="tech-specs">
+                    <h4>Transitions CSS</h4>
+                    <div class="code-line">• slideIn: scale(0.8) → scale(1)</div>
+                    <div class="code-line">• Rotation: -10deg → 0deg</div>
+                    <div class="code-line">• Opacité: 0 → 1</div>
+                    <div class="code-line">• Délai progressif par segment</div>
+                </div>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🎯 Accessibilité</h3>
+                <div class="tech-specs">
+                    <h4>UX Design</h4>
+                    <div class="code-line">• Icônes explicites par segment</div>
+                    <div class="code-line">• Descriptions textuelles claires</div>
+                    <div class="code-line">• Contraste couleurs optimisé</div>
+                    <div class="code-line">• Navigation clavier friendly</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2em; margin-bottom: 30px; color: #FFD700;">
+            🚀 Intégration React
+        </h2>
+        
+        <div class="tech-specs">
+            <h4>Composant CamembertEstimation.jsx</h4>
+            <div class="code-line">import CamembertEstimation from './blocs/CamembertEstimation';</div>
+            <div class="code-line">...</div>
+            <div class="code-line">&lt;CamembertEstimation estimation={estimation} /&gt;</div>
+            <div class="code-line">...</div>
+            <div class="code-line">// Props automatiques : montantAchats, montantMainOeuvre,</div>
+            <div class="code-line">// montantFraisGeneraux, montantMarge, totalDemiJournees</div>
+        </div>
+        
+        <div class="highlight">
+            <h4>✅ Intégré dans AffaireEstimation.jsx</h4>
+            <p>Le camembert s'affiche automatiquement dès qu'une estimation est calculée. Il remplace les anciens blocs statiques par une visualisation dynamique et interactive qui respecte parfaitement les guidelines de design Apple.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2 style="text-align: center; font-size: 2em; margin-bottom: 30px; color: #FFD700;">
+            🎉 Résultat Final
+        </h2>
+        
+        <div class="demo-grid">
+            <div class="demo-card">
+                <h3>🎨 Design</h3>
+                <p><strong>Style Apple authentique</strong> avec couleurs terre, vert olive et bleu signature. Gradients subtils, ombres douces et typographie élégante.</p>
+            </div>
+            
+            <div class="demo-card">
+                <h3>⚡ Performance</h3>
+                <p><strong>Rendu SVG optimisé</strong> avec animations fluides 60fps. Calculs mathématiques précis et gestion intelligente des états.</p>
+            </div>
+            
+            <div class="demo-card">
+                <h3>🎯 UX</h3>
+                <p><strong>Interactions intuitives</strong> avec feedback visuel immédiat. Légende synchronisée et informations contextuelles claires.</p>
+            </div>
+            
+            <div class="demo-card">
+                <h3>📱 Responsive</h3>
+                <p><strong>Adaptable tous écrans</strong> avec grille CSS flexible. Préserve la lisibilité sur mobile et desktop.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="cta-section">
+        <h2 style="margin-bottom: 20px; font-size: 2.2em;">🎯 Prêt pour l'Étape 7 !</h2>
+        <p style="font-size: 1.2em; margin-bottom: 30px; opacity: 0.9;">
+            Le camembert Apple est maintenant intégré et fonctionnel.<br/>
+            Votre estimation de 121 564€ est parfaitement visualisée !
+        </p>
+        <a href="http://localhost:8080" class="cta-button">
+            🚀 Voir en Live
+        </a>
+    </div>
+
+    <script>
+        // Animation d'entrée progressive
+        document.addEventListener('DOMContentLoaded', () => {
+            const containers = document.querySelectorAll('.container, .hero');
+            containers.forEach((container, index) => {
+                container.style.opacity = '0';
+                container.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    container.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                    container.style.opacity = '1';
+                    container.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+
+        // Animation des stats au scroll
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const animateNumbers = () => {
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                let currentValue = 0;
+                const increment = Math.ceil(parseFloat(finalValue.replace(/[^\d.-]/g, '')) / 50);
+                
+                const updateNumber = () => {
+                    if (currentValue < parseFloat(finalValue.replace(/[^\d.-]/g, ''))) {
+                        currentValue += increment;
+                        if (finalValue.includes('€')) {
+                            stat.textContent = currentValue.toLocaleString() + '€';
+                        } else {
+                            stat.textContent = currentValue;
+                        }
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        stat.textContent = finalValue;
+                    }
+                };
+                
+                setTimeout(updateNumber, Math.random() * 500);
+            });
+        };
+
+        // Démarrer l'animation des chiffres après 1 seconde
+        setTimeout(animateNumbers, 1000);
+    </script>
+</body>
+</html> 

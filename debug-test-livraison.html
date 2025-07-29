@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Test Date de Livraison - BDC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .success {
+            color: #4ade80;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .feature {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            border-left: 4px solid #4ade80;
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        .badge-today { background: #fef3c7; color: #d97706; }
+        .badge-upcoming { background: #fef7cd; color: #d97706; }
+        .badge-overdue { background: #fee2e2; color: #dc2626; }
+        .test-btn {
+            background: #4ade80;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .test-btn:hover {
+            background: #22c55e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Test Date de Livraison - BDC</h1>
+        
+        <div class="success">✅ Erreur 500 corrigée avec succès !</div>
+        
+        <h2>🎯 Fonctionnalités Opérationnelles</h2>
+        
+        <div class="feature">
+            <strong>✅ Base de données</strong><br>
+            • Champ `dateLivraison` ajouté à la table `bdc`<br>
+            • Migration Prisma appliquée avec succès<br>
+            • Client Prisma régénéré
+        </div>
+        
+        <div class="feature">
+            <strong>✅ Backend</strong><br>
+            • Serveur redémarré et fonctionnel<br>
+            • API BDC accepte maintenant le champ `dateLivraison`<br>
+            • Plus d'erreur "Unknown argument"
+        </div>
+        
+        <div class="feature">
+            <strong>✅ Frontend</strong><br>
+            • Champ "Date de livraison prévue" dans tous les formulaires<br>
+            • Auto-sélection fournisseur → catégorie<br>
+            • Encadrement visuel pour la date actuelle
+        </div>
+        
+        <h2>🎨 Badges d'État</h2>
+        <div>
+            <span class="badge badge-today">📍 AUJOURD'HUI</span>
+            <span class="badge badge-upcoming">⏰ BIENTÔT</span>
+            <span class="badge badge-overdue">⚠️ EN RETARD</span>
+        </div>
+        
+        <h2>🚀 Tester Maintenant</h2>
+        <p>1. Ouvrez votre application (localhost:8080)</p>
+        <p>2. Naviguez vers une affaire</p>
+        <p>3. Créez un nouveau BDC</p>
+        <p>4. Sélectionnez "Bouney" → Catégorie "Bois" auto-sélectionnée</p>
+        <p>5. Choisissez la date d'aujourd'hui → Encadrement orange</p>
+        
+        <button class="test-btn" onclick="window.open('http://localhost:8080', '_blank')">
+            🎯 Tester l'Application
+        </button>
+        
+        <div style="margin-top: 30px; text-align: center; opacity: 0.8;">
+            <small>Date de livraison implementée avec succès ! 🎉</small>
+        </div>
+    </div>
+</body>
+</html> 
