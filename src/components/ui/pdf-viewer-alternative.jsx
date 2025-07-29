@@ -209,11 +209,12 @@ export default function PdfViewer({
           loading=""
           error=""
           className="flex justify-center"
-          options={{
-            cMapUrl: 'https://unpkg.com/pdfjs-dist@2.16.105/cmaps/',
-            cMapPacked: true,
-            standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@2.16.105/standard_fonts/',
-          }}
+          // TEMPORAIREMENT DÉSACTIVÉ POUR DÉPLOIEMENT
+          // options={{
+          //   cMapUrl: 'https://unpkg.com/pdfjs-dist@2.16.105/cmaps/',
+          //   cMapPacked: true,
+          //   standardFontDataUrl: 'https://unpkg.com/pdfjs-dist@2.16.105/standard_fonts/',
+          // }}
         >
           {!loading && (
             <Page
