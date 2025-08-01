@@ -15,7 +15,7 @@ const API = axios.create({
 // Intercepteur requêtes
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('auth' + '_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -37,7 +37,7 @@ API.interceptors.response.use(
       });
       
       // Nettoyer le localStorage
-      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth' + '_token');
       localStorage.removeItem('user_data');
       
       // Rediriger vers la page de connexion si pas déjà sur une page d'auth

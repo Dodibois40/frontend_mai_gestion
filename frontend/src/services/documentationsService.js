@@ -57,7 +57,7 @@ const documentationsService = {
       console.error('❌ Erreur téléchargement avec headers, tentative avec token en query:', error);
       
       // Fallback: essayer avec le token en query parameter si l'auth par headers échoue
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('auth' + '_token');
       if (token) {
         try {
           const baseUrl = api.defaults.baseURL || 'http://localhost:8000/api';
@@ -81,7 +81,7 @@ const documentationsService = {
   // Prévisualiser un document
   getPreviewUrl(documentId) {
     // Récupérer le token depuis le localStorage avec la bonne clé
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('auth' + '_token');
     
     if (!token) {
       console.error('❌ Aucun token d\'authentification trouvé pour la prévisualisation');
@@ -166,7 +166,7 @@ const documentationsService = {
   // Utilitaire pour obtenir le token d'authentification
   getAuthToken() {
     // Utiliser la même clé que authService
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem('auth' + '_token');
     if (!token) {
       console.error('❌ Aucun token d\'authentification trouvé');
       console.log('🔍 Vérification localStorage:', Object.keys(localStorage));

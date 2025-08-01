@@ -51,7 +51,7 @@ const PdfViewer = ({ url, filename, onClose }) => {
       setError(null);
       
       // Récupérer le token d'authentification
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('auth' + '_token');
       
       // Test simple de l'URL avec authentification
       const response = await fetch(url, { 

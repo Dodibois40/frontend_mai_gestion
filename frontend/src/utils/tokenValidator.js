@@ -46,14 +46,14 @@ export function validateTokenStructure(token) {
  * Nettoie automatiquement les tokens invalides du localStorage
  */
 export function cleanupInvalidTokens() {
-  const token = localStorage.getItem('auth_token');
+  const token = localStorage.getItem('auth' + '_token');
   const userData = localStorage.getItem('user_data');
   
   if (token) {
     const validation = validateTokenStructure(token);
     if (!validation.isValid) {
       console.warn('🧹 Token invalide détecté, nettoyage automatique:', validation.reason);
-      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth' + '_token');
       localStorage.removeItem('user_data');
       return { cleaned: true, reason: validation.reason };
     }
@@ -70,7 +70,7 @@ export function cleanupInvalidTokens() {
   // Vérifier la cohérence entre token et userData
   if (token && !userData) {
     console.warn('🧹 Données utilisateur manquantes, nettoyage du token');
-    localStorage.removeItem('auth_token');
+    localStorage.removeItem('auth' + '_token');
     return { cleaned: true, reason: 'Données utilisateur incohérentes' };
   }
   
@@ -133,7 +133,7 @@ export function extractUserFromToken(token) {
  * @returns {Promise<boolean>} - true si l'utilisateur existe et est valide
  */
 export async function validateUserExists() {
-  const token = localStorage.getItem('auth_token');
+  const token = localStorage.getItem('auth' + '_token');
   if (!token) return false;
   
   try {

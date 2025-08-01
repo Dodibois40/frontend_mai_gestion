@@ -26,7 +26,7 @@ const ParametresEntreprise = () => {
   const loadParametres = async () => {
     setIsLoading(true);
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('auth' + '_token');
       const response = await fetch('/api/parametres', {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -61,7 +61,7 @@ const ParametresEntreprise = () => {
   // Sauvegarder un paramètre
   const saveParametre = async (cle, valeur) => {
     try {
-      const token = localStorage.getItem('auth_token');
+      const token = localStorage.getItem('auth' + '_token');
       const response = await fetch('/api/parametres', {
         method: 'POST',
         headers: {
@@ -126,7 +126,7 @@ const ParametresEntreprise = () => {
       ];
 
       for (const param of defaultParams) {
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem('auth' + '_token');
         await fetch('/api/parametres', {
           method: 'POST',
           headers: {

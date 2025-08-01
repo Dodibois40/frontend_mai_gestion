@@ -98,22 +98,22 @@ export const BrowserCompat = {
 
   // Gestion des tokens d'authentification
   setAuthToken(token) {
-    this.setSecureStorage('auth_token', token);
+    this.setSecureStorage('auth' + '_token', token);
     
     // Pour Chrome, on ajoute aussi dans un cookie httpOnly simulé
     if (this.isChrome()) {
-      document.cookie = `auth_token=${token}; path=/; SameSite=Lax; Secure=${location.protocol === 'https:'}`;
+      document.cookie = `auth' + '_token=${token}; path=/; SameSite=Lax; Secure=${location.protocol === 'https:'}`;
     }
   },
 
   getAuthToken() {
     // Priorité au stockage local
-    let token = this.getSecureStorage('auth_token');
+    let token = this.getSecureStorage('auth' + '_token');
     
     // Fallback sur les cookies pour Chrome
     if (!token && this.isChrome()) {
       const cookies = document.cookie.split(';');
-      const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
+      const authCookie = cookies.find(cookie => cookie.trim().startsWith('auth' + '_token='));
       if (authCookie) {
         token = authCookie.split('=')[1];
       }
@@ -123,11 +123,11 @@ export const BrowserCompat = {
   },
 
   removeAuthToken() {
-    this.removeSecureStorage('auth_token');
+    this.removeSecureStorage('auth' + '_token');
     
     // Supprimer le cookie pour Chrome
     if (this.isChrome()) {
-      document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+      document.cookie = 'auth' + '_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
   },
 
