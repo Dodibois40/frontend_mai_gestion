@@ -1,0 +1,12 @@
+{
+  "watch": ["src"],
+  "ext": "ts,js",
+  "ignore": ["src/**/*.spec.ts", "**/desktop.ini", "**/Thumbs.db"],
+  "exec": "ts-node src/main.ts",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "verbose": true,
+  "delay": "1000",
+  "restartable": "rs"
+}

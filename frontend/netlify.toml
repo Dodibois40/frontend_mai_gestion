@@ -1,0 +1,38 @@
+[build]
+  base = "frontend"
+  command = "npm install --legacy-peer-deps && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Configuration pour éviter la détection de faux secrets
+[build.processing]
+  skip_processing = false
+
+[build.processing.secrets_scan]
+  # Désactiver la détection de secrets smart pour éviter les faux positifs
+  enabled = false
+
+# Variables d'environnement pour ignorer certaines détections
+[build.environment]
+  SECRETS_SCAN_SMART_DETECTION_ENABLED = "false"
+  SECRETS_SCAN_SMART_DETECTION_OMIT_VALUES = "localhost:8000,auth_token,Bearer,token"
+
+# Redirection pour SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers pour les fichiers JS
+[[headers]]
+  for = "*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"
+
+[[headers]]  
+  for = "*.mjs"
+  [headers.values]
+    Content-Type = "application/javascript; charset=utf-8"

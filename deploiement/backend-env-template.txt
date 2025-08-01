@@ -1,0 +1,39 @@
+# Template de configuration Backend pour O2SWITCH
+# Copier ce fichier vers backend/.env et remplir les valeurs
+
+NODE_ENV=production
+PORT=3000
+
+# Base de données MySQL O2SWITCH
+# Format: mysql://USER:PASSWORD@localhost:3306/DATABASE_NAME
+DATABASE_URL="mysql://cexe9174_mai_user:VOTRE_MOT_DE_PASSE_MYSQL@localhost:3306/cexe9174_mai_gestion"
+
+# Sécurité JWT (générer une clé secrète forte)
+JWT_SECRET=GENERER_UNE_CLE_SECRETE_FORTE_ICI_MIN_32_CARACTERES
+JWT_EXPIRES_IN=7d
+
+# Firebase (si utilisé pour l'authentification)
+FIREBASE_API_KEY=
+FIREBASE_AUTH_DOMAIN=
+FIREBASE_PROJECT_ID=
+FIREBASE_STORAGE_BUCKET=
+FIREBASE_MESSAGING_SENDER_ID=
+FIREBASE_APP_ID=
+
+# Anthropic API (pour Claude)
+ANTHROPIC_API_KEY=
+
+# Configuration Email (SMTP O2SWITCH)
+SMTP_HOST=mail.lamanufacturedubois.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=noreply@lamanufacturedubois.com
+SMTP_PASS=VOTRE_MOT_DE_PASSE_EMAIL
+
+# URLs de l'application
+FRONTEND_URL=https://crm.lamanufacturedubois.com
+API_URL=https://api.lamanufacturedubois.com
+
+# Upload files
+MAX_FILE_SIZE=10485760  # 10MB en bytes
+UPLOAD_PATH=/home/cexe9174/nodejs_apps/mai-gestion-api/uploads 

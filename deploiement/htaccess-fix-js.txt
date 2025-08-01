@@ -1,0 +1,31 @@
+# .htaccess pour Mai Gestion - Fix JavaScript
+# À placer dans /public_html/crm/.htaccess
+
+RewriteEngine On
+
+# Forcer HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# TRÈS IMPORTANT : Ne PAS rediriger les fichiers qui existent
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# TRÈS IMPORTANT : Ne PAS rediriger les dossiers qui existent  
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rediriger seulement les routes SPA vers index.html
+RewriteRule ^(.*)$ index.html [L]
+
+# Types MIME pour JavaScript et CSS
+AddType application/javascript .js .mjs
+AddType text/css .css
+AddType application/json .json
+AddType image/svg+xml .svg
+AddType font/woff2 .woff2
+
+# Désactiver le sniffing MIME
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule> 

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnostic Complet - Mai Gestion</title>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .test { margin: 20px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .warning { background: #fff3cd; color: #856404; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; font-size: 12px; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Diagnostic Complet - Mai Gestion</h1>
+        
+        <div class="test info">
+            <h3>1️⃣ Test des APIs</h3>
+            <div id="api-tests">Tests en cours...</div>
+        </div>
+
+        <div class="test info">
+            <h3>2️⃣ Configuration Frontend</h3>
+            <div id="frontend-config">Analyse en cours...</div>
+        </div>
+
+        <div class="grid">
+            <div class="test warning">
+                <h3>🔧 Actions Rapides</h3>
+                <button onclick="window.open('fix-api-url.php', '_blank')">Forcer API → api.lamanufacturedubois.com</button>
+                <button onclick="window.open('fix-to-api-crm.php', '_blank')">Forcer API → api-crm.lamanufacturedubois.com</button>
+            </div>
+
+            <div class="test info">
+                <h3>📊 Résumé</h3>
+                <div id="summary">En attente des tests...</div>
+            </div>
+        </div>
+
+        <div class="test">
+            <h3>📝 Logs Détaillés</h3>
+            <pre id="logs"></pre>
+        </div>
+    </div>
+
+    <script>
+        const log = (msg) => {
+            const logs = document.getElementById('logs');
+            logs.textContent += new Date().toISOString() + ' - ' + msg + '\n';
+        };
+
+        async function testAPIs() {
+            const apis = [
+                { url: 'https://api.lamanufacturedubois.com/', name: 'api' },
+                { url: 'https://api-crm.lamanufacturedubois.com/', name: 'api-crm' }
+            ];
+            
+            const results = document.getElementById('api-tests');
+            results.innerHTML = '';
+            const summary = { working: null, notWorking: [] };
+            
+            for (const api of apis) {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>${api.name}:</strong> `;
+                
+                try {
+                    log(`Test ${api.url}`);
+                    
+                    // Test 1: Fetch simple
+                    const response = await fetch(api.url, { 
+                        method: 'GET',
+                        mode: 'no-cors'
+                    });
+                    
+                    // Test 2: Test avec CORS
+                    try {
+                        const corsResponse = await fetch(api.url + 'auth/login', {
+                            method: 'OPTIONS',
+                            headers: {
+                                'Origin': 'https://crm.lamanufacturedubois.com'
+                            }
+                        });
+                        
+                        if (corsResponse.ok) {
+                            div.innerHTML += '<span class="success">✅ API accessible avec CORS</span>';
+                            summary.working = api;
+                        } else {
+                            div.innerHTML += '<span class="warning">⚠️ API accessible mais CORS non configuré</span>';
+                        }
+                    } catch (corsError) {
+                        div.innerHTML += '<span class="warning">⚠️ API peut-être accessible (test no-cors réussi)</span>';
+                        summary.working = api;
+                    }
+                    
+                } catch (error) {
+                    div.innerHTML += `<span class="error">❌ Non accessible: ${error.message}</span>`;
+                    summary.notWorking.push(api);
+                    log(`Erreur ${api.url}: ${error.message}`);
+                }
+                
+                results.appendChild(div);
+            }
+            
+            // Mise à jour du résumé
+            updateSummary(summary);
+        }
+
+        async function checkFrontendConfig() {
+            const div = document.getElementById('frontend-config');
+            
+            try {
+                // Récupérer un fichier JS du frontend
+                const response = await fetch('/assets/index-CNmJYtPa.js');
+                const content = await response.text();
+                
+                // Chercher l'URL API
+                const apiUrlMatch = content.match(/https:\/\/api(-crm)?\.lamanufacturedubois\.com/g);
+                
+                if (apiUrlMatch) {
+                    const uniqueUrls = [...new Set(apiUrlMatch)];
+                    div.innerHTML = `<strong>URL(s) trouvée(s):</strong><br>`;
+                    uniqueUrls.forEach(url => {
+                        div.innerHTML += `• ${url}<br>`;
+                    });
+                } else {
+                    div.innerHTML = '<span class="error">❌ Aucune URL API trouvée</span>';
+                }
+                
+            } catch (error) {
+                div.innerHTML = `<span class="error">❌ Impossible de vérifier: ${error.message}</span>`;
+            }
+        }
+
+        function updateSummary(summary) {
+            const div = document.getElementById('summary');
+            
+            if (summary.working) {
+                div.innerHTML = `<p class="success">✅ API fonctionnelle: <strong>${summary.working.url}</strong></p>`;
+                
+                if (summary.working.name === 'api-crm') {
+                    div.innerHTML += `<p class="warning">⚠️ Mais le frontend utilise api.lamanufacturedubois.com</p>`;
+                    div.innerHTML += `<p><strong>Solution:</strong> Cliquez sur "Forcer API → api-crm" ci-dessus</p>`;
+                } else {
+                    div.innerHTML += `<p class="success">✅ Frontend correctement configuré</p>`;
+                }
+            } else {
+                div.innerHTML = `<p class="error">❌ Aucune API accessible!</p>`;
+                div.innerHTML += `<p>Vérifiez dans cPanel que l'app Node.js est bien démarrée</p>`;
+            }
+        }
+
+        // Lancer les tests
+        (async () => {
+            await testAPIs();
+            await checkFrontendConfig();
+        })();
+    </script>
+</body>
+</html> 

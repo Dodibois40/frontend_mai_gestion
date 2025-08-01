@@ -1,0 +1,17 @@
+{
+  "name": "mai-gestion-test-api",
+  "version": "1.0.0",
+  "description": "API de test simple pour Mai Gestion",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

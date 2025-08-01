@@ -1,0 +1,31 @@
+# Configuration Backend Production - Mai Gestion
+NODE_ENV=production
+PORT=3000
+
+# Base de données MySQL O2SWITCH
+DATABASE_URL=mysql://cexe9174_mai_user:Do@66001699@localhost:3306/cexe9174_mai_gestion
+
+# Sécurité JWT
+JWT_SECRET=xK9mP3nQ7rT5vY2bC4dF6gH8jL1aS0wE
+JWT_EXPIRES_IN=7d
+
+# URLs de l'application (IMPORTANT : api-crm)
+FRONTEND_URL=https://crm.lamanufacturedubois.com
+API_URL=https://api-crm.lamanufacturedubois.com
+
+# Firebase (si utilisé)
+FIREBASE_API_KEY=AIzaSyBePps0LFOBvqQFB9fwB_G-2paIlvCQQFs
+
+# Configuration Email SMTP O2SWITCH
+SMTP_HOST=mail.lamanufacturedubois.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=noreply@lamanufacturedubois.com
+SMTP_PASS=VOTRE_MOT_DE_PASSE_EMAIL
+
+# Upload files
+MAX_FILE_SIZE=10485760
+UPLOAD_PATH=/home/cexe9174/nodejs_apps/mai-gestion-api/uploads
+
+# Anthropic Claude API
+ANTHROPIC_API_KEY= 

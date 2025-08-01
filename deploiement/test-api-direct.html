@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Mai Gestion</title>
+</head>
+<body>
+    <h1>Test Configuration API</h1>
+    <div id="results"></div>
+    
+    <script type="module">
+        // Test direct de l'API
+        const testApi = async () => {
+            const results = document.getElementById('results');
+            
+            // Test api-crm
+            try {
+                const response1 = await fetch('https://api-crm.lamanufacturedubois.com/');
+                results.innerHTML += `<p>✅ api-crm.lamanufacturedubois.com : ${response1.status}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>❌ api-crm.lamanufacturedubois.com : ${e.message}</p>`;
+            }
+            
+            // Test ancienne api
+            try {
+                const response2 = await fetch('https://api.lamanufacturedubois.com/');
+                results.innerHTML += `<p>⚠️ api.lamanufacturedubois.com : ${response2.status}</p>`;
+            } catch (e) {
+                results.innerHTML += `<p>✅ api.lamanufacturedubois.com : N'existe pas (c'est normal)</p>`;
+            }
+            
+            // Charger et vérifier le script principal
+            const scriptTag = document.querySelector('script[src*="index-"]');
+            if (scriptTag) {
+                results.innerHTML += `<p>Script trouvé : ${scriptTag.src}</p>`;
+                
+                try {
+                    const scriptContent = await fetch(scriptTag.src).then(r => r.text());
+                    if (scriptContent.includes('api-crm.lamanufacturedubois.com')) {
+                        results.innerHTML += `<p>✅ Le script contient api-crm !</p>`;
+                    } else if (scriptContent.includes('api.lamanufacturedubois.com')) {
+                        results.innerHTML += `<p>❌ Le script contient l'ancienne URL api !</p>`;
+                    }
+                } catch (e) {
+                    results.innerHTML += `<p>Erreur lecture script : ${e.message}</p>`;
+                }
+            }
+        };
+        
+        testApi();
+    </script>
+</body>
+</html> 

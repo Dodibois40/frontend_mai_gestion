@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Statique - Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+    .info-box {
+      background: #f8f9fa;
+      border-left: 5px solid #3498db;
+      padding: 15px;
+      margin: 20px 0;
+    }
+    .success {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+    button {
+      background: #3498db;
+      border: none;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Page HTML Statique</h1>
+  
+  <div class="info-box">
+    <p class="success">✓ Le serveur Vite fonctionne correctement si vous voyez cette page.</p>
+    <p>Cette page statique est servie directement depuis le dossier <code>public</code> et ne nécessite pas de JavaScript.</p>
+    <p>Heure du chargement: <span id="time"></span></p>
+  </div>
+  
+  <h2>Diagnostic</h2>
+  <p>Si cette page se charge mais que l'application React ne se charge pas, le problème est probablement dans:</p>
+  <ul>
+    <li>Le bundle JavaScript (erreur de compilation)</li>
+    <li>Les modules React ou ReactDOM</li>
+    <li>La configuration du routeur</li>
+  </ul>
+  
+  <p>Essayez les liens suivants:</p>
+  <ul>
+    <li><a href="/">Page principale</a></li>
+    <li><a href="/minimal.html">Version minimale</a></li>
+    <li><a href="/debug.html">Version de débogage</a></li>
+  </ul>
+  
+  <button onclick="document.getElementById('time').textContent = new Date().toLocaleTimeString()">
+    Actualiser l'heure
+  </button>
+  
+  <script>
+    // Script simple pour afficher l'heure
+    document.getElementById('time').textContent = new Date().toLocaleTimeString();
+  </script>
+</body>
+</html> 

@@ -1,0 +1,12 @@
+# .htaccess pour permettre la validation SSL Let's Encrypt
+# À placer dans le document root de api.lamanufacturedubois.com
+
+RewriteEngine On
+
+# TRÈS IMPORTANT : Permettre l'accès à .well-known pour Let's Encrypt
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ - [L]
+
+# Si vous avez une app Node.js, décommentez ces lignes :
+# RewriteCond %{REQUEST_URI} !^/\.well-known/
+# RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L] 

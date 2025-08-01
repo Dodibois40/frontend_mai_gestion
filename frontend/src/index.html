@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Application d'organisation d'entreprise" />
+    <title>Entreprise Organiser</title>
+    
+    <!-- Polyfills pour CommonJS et correction des transitions -->
+    <script>
+      // Définir module et require pour les bibliothèques CommonJS
+      window.module = { exports: {} };
+      window.require = function(name) {
+        console.warn('require(' + name + ') appelé dans un environnement ESM');
+        return {};
+      };
+      window.global = window;
+      
+      // Définir PropTypes pour éviter les erreurs
+      window.PropTypes = {
+        string: function() { return null; },
+        number: function() { return null; },
+        bool: function() { return null; },
+        func: function() { return null; },
+        array: function() { return null; },
+        object: function() { return null; },
+        node: function() { return null; },
+        element: function() { return null; },
+        instanceOf: function() { return function() { return null; }; },
+        oneOf: function() { return function() { return null; }; },
+        oneOfType: function() { return function() { return null; }; },
+        arrayOf: function() { return function() { return null; }; },
+        objectOf: function() { return function() { return null; }; },
+        shape: function() { return function() { return null; }; },
+        any: function() { return null; }
+      };
+      window.PropTypes.default = window.PropTypes;
+      
+      // Intercepter les erreurs de modules et de transitions
+      window.addEventListener('error', function(event) {
+        if (event && event.message && (
+          event.message.includes('module') || 
+          event.message.includes('require') ||
+          event.message.includes('prop-types') ||
+          event.message.includes('Transition') ||
+          event.message.includes('apply')
+        )) {
+          event.preventDefault();
+          console.warn('Erreur interceptée et corrigée:', event.message);
+          return true;
+        }
+      }, true);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html> 

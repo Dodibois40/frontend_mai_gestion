@@ -1,0 +1,99 @@
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: entreprise_organiser_pg
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: entreprise_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_entreprise_organiser:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devuser -d entreprise_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - entreprise_network
+
+  # Backend NestJS
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    container_name: entreprise_organiser_backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://devuser:devpassword@postgres_db:5432/entreprise_db
+      - JWT_SECRET=super-secret-jwt-key-for-production
+      - PORT=8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    volumes:
+      - ./backend/uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - entreprise_network
+
+  # Frontend React + Nginx
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    container_name: entreprise_organiser_frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - entreprise_network
+
+  # Redis pour le cache (optionnel)
+  redis:
+    image: redis:7-alpine
+    container_name: entreprise_organiser_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - entreprise_network
+
+volumes:
+  postgres_data_entreprise_organiser:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  entreprise_network:
+    driver: bridge

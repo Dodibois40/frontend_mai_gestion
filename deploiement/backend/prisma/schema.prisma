@@ -1,0 +1,1219 @@
+﻿generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Devis {
+  id            String      @id @default(uuid())
+  numero        String      @unique
+  libelle       String
+  montantHt     Float
+  dateCreation  DateTime    @default(now())
+  dateValidite  DateTime
+  statut        StatutDevis @default(EN_ATTENTE_VALIDATION)
+  description   String?
+  commentaire   String?
+  affaireId     String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  dateUpload    DateTime?
+  fichierPdf    String?
+  nomFichier    String?
+  tailleFichier Int?
+  affaire       Affaire     @relation(fields: [affaireId], references: [id])
+
+  @@map("devis")
+}
+
+model Affaire {
+  id                        String                     @id @default(uuid())
+  numero                    String                     @unique
+  libelle                   String
+  client                    String
+  adresse                   String?
+  dateCreation              DateTime                   @default(now())
+  dateCloturePrevue         DateTime?
+  objectifCaHt              Float
+  objectifAchatHt           Float
+  objectifHeuresFab         Float
+  statut                    StatutAffaire              @default(PLANIFIEE)
+  createdAt                 DateTime                   @default(now())
+  updatedAt                 DateTime                   @updatedAt
+  achatReelHt               Float                      @default(0)
+  caReelHt                  Float                      @default(0)
+  heuresReellesFab          Float                      @default(0)
+  heuresReellesPose         Float                      @default(0)
+  objectifHeuresPose        Float                      @default(0)
+  objectifHeuresSer         Float                      @default(0)
+  avancementPourcentage     Float                      @default(0)
+  codePostal                String?
+  latitude                  Float?
+  longitude                 Float?
+  pays                      String?
+  rue                       String?
+  ville                     String?
+  dateCommencement          DateTime?
+  objectifFraisGeneraux     Float                      @default(0)
+  achats                    Achat[]
+  bdc                       Bdc[]
+  devis                     Devis[]
+  estimationsAchatCategorie EstimationAchatCategorie[]
+  estimationAchats          EstimationAchats?
+  phases                    PhaseChantier[]
+  pointages                 Pointage[]
+  // Nouveau : Planning Ã©quipe
+  planningAffectations      PlanningAffectation[]
+  // Nouveau : Estimation vs RÃ©el
+  estimationsAffaire        EstimationAffaire[]
+  comparaisonsEstimationReel ComparaisonEstimationReel[]
+  // Nouveau : Documentations
+  documentations            Documentation[]
+
+  @@map("affaires")
+}
+
+model CategorieAchat {
+  id            String                     @id @default(uuid())
+  code          String                     @unique
+  intitule      String
+  pourcentageFg Float
+  achats        Achat[]
+  bdc           Bdc[]
+  estimations   EstimationAchatCategorie[]
+
+  @@map("categories_achat")
+}
+
+model EstimationAchatCategorie {
+  id            String         @id @default(uuid())
+  affaireId     String
+  categorieId   String
+  montantEstime Float          @default(0)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  affaire       Affaire        @relation(fields: [affaireId], references: [id])
+  categorie     CategorieAchat @relation(fields: [categorieId], references: [id])
+
+  @@unique([affaireId, categorieId])
+  @@map("estimations_achat_categorie")
+}
+
+model EstimationAchats {
+  id                      String   @id @default(uuid())
+  affaireId               String   @unique
+  pourcentageBudgetAchats Float    @default(30)
+  montantEstimationAchats Float    @default(0)
+  totalPourcentage        Float    @default(0)
+  categoriesActives       Json     @default("[]")
+  dateCreation            DateTime @default(now())
+  dateModification        DateTime @updatedAt
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+  affaire                 Affaire  @relation(fields: [affaireId], references: [id])
+
+  @@map("estimations_achats")
+}
+
+model Bdc {
+  id                  String         @id @default(uuid())
+  numero              String         @unique
+  montantHt           Float
+  dateBdc             DateTime       @default(now())
+  dateReception       DateTime?
+  commentaire         String?
+  affaireId           String
+  categorieId         String
+  fournisseur         String
+  montantFg           Float          @default(0)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  statut              StatutBdc      @default(EN_ATTENTE)
+  dateUpload          DateTime?
+  fichierPdf          String?
+  nomFichier          String?
+  tailleFichier       Int?
+  firebaseDownloadUrl String?
+  firebaseStoragePath String?
+  dateLivraison       DateTime?
+  direction           DirectionBdc   @default(SORTANT)
+  // Nouveaux champs pour la livraison
+  lieuLivraison       String?        // "ATELIER" ou "CHANTIER"
+  adresseLivraison    String?        // Adresse personnalisÃ©e si chantier
+  achats              Achat[]
+  lignes              LigneBdc[]
+  affaire             Affaire        @relation(fields: [affaireId], references: [id])
+  categorie           CategorieAchat @relation(fields: [categorieId], references: [id])
+
+  @@map("bdc")
+}
+
+model LigneBdc {
+  id            String  @id @default(uuid())
+  designation   String
+  reference     String?
+  quantite      Float
+  prixUnitaire  Float
+  montantLigne  Float
+  bdcId         String
+  ordre         Int     @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  bdc           Bdc     @relation(fields: [bdcId], references: [id], onDelete: Cascade)
+
+  @@map("lignes_bdc")
+}
+
+model Pointage {
+  id           String            @id @default(uuid())
+  datePointage DateTime
+  nbHeures     Float
+  commentaire  String?
+  typeHeure    TypeHeure
+  affaireId    String
+  userId       String
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  coutCalcule  Float             @default(0)
+  tacheId      String?
+  affaire      Affaire           @relation(fields: [affaireId], references: [id])
+  tache        TacheAffectation? @relation(fields: [tacheId], references: [id])
+  user         User              @relation(fields: [userId], references: [id])
+
+  @@map("pointages")
+}
+
+model ParametreGlobal {
+  id          String   @id @default(uuid())
+  cle         String   @unique
+  valeur      String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("parametres_globaux")
+}
+
+model User {
+  id               String             @id @default(uuid())
+  email            String             @unique
+  nom              String
+  prenom           String
+  passwordHash     String
+  role             RoleEnum
+  statutContractuel StatutContractuel @default(SALARIE)
+  // SpÃ©cialitÃ©s multiples (cases Ã  cocher)
+  specialitePoseur        Boolean     @default(false)
+  specialiteFabriquant    Boolean     @default(false)
+  specialiteDessinateur   Boolean     @default(false)
+  specialiteChargeAffaire Boolean     @default(false)
+  actif            Boolean            @default(true)
+  supprime         Boolean            @default(false)
+  supprimeLe       DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  dateEmbauche     DateTime?
+  tarifHoraireBase Float              @default(0) // DEPRECATED - Ã€ supprimer aprÃ¨s migration
+  tarifHoraireCout Float              @default(0) // Tarif coÃ»t (calculs internes)
+  tarifHoraireVente Float             @default(0) // Tarif vente (facturation client)
+  telephone        String?
+  isBlocked        Boolean            @default(false)
+  blockedUntil     DateTime?
+  failedLoginAttempts Int             @default(0)
+  lastLoginAt      DateTime?
+  lastPasswordChange DateTime?
+  forcePasswordChange Boolean         @default(false)
+  twoFactorEnabled Boolean            @default(false)
+  twoFactorSecret  String?
+  avatar           String?
+  mouvementsStock  MouvementStock[]
+  pointages        Pointage[]
+  tachesAffectees  TacheAffectation[]
+  loginAudits      LoginAudit[]
+  loginAttempts    LoginAttempt[]
+  userSessions     UserSession[]
+  userPreferences  UserPreferences?
+  claudeConversations ClaudeConversation[]
+  twoFactorAuth    TwoFactorAuth?
+  userActivities   UserActivity[]
+  securityAlerts   SecurityAlert[]
+  profile          UserProfile?
+  // Nouveau : Planning Ã©quipe
+  couleurPlanning      String?           @default("#3B82F6")
+  disponiblePlanning   Boolean           @default(true)
+  planningAffectations PlanningAffectation[]
+  // Nouveau : Estimation vs RÃ©el
+  estimationsValidees  EstimationAffaire[] @relation("ValidationEstimation")
+  comparaisonsCalculees ComparaisonEstimationReel[] @relation("CalculComparaison")
+  ajustementsEffectues AjustementEstimation[] @relation("AjustementPar")
+  ajustementsValides   AjustementEstimation[] @relation("ValidationAjustement")
+  // Nouveau : Documentations
+  documentsUploades    Documentation[]
+  // Nouveau : Pointage heures
+  pointageHeures       PointageHeures[]  @relation("PointageHeuresUser")
+
+  @@map("users")
+}
+
+model UserProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id])
+  poste           String?
+  bio             String?
+  adresse         String?
+  ville           String?
+  codePostal      String?
+  dateNaissance   DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map("user_profiles")
+}
+
+model FraisGeneral {
+  id               String    @id @default(uuid())
+  libelle          String    // ex: "Toupie", "CrÃ©dit bail gerbeur 1", etc.
+  montantTtc       Float     // Montant TTC mensuel
+  montantHt        Float     // Montant HT mensuel 
+  ordre            Int       @default(0) // Pour l'ordre d'affichage
+  actif            Boolean   @default(true)
+  categorie        String    @default("AUTRE") // MATERIEL, LOCATION, ASSURANCE, BANQUE, LOGICIEL, CREDIT_CLASSIQUE, CREDIT_BAIL, etc.
+  commentaire      String?
+  dateCommencement DateTime? // Date de dÃ©but du frais gÃ©nÃ©ral (obligatoire)
+  dateFin          DateTime? // Date de fin pour tous types de frais (optionnel)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("frais_generaux")
+}
+
+model Fournisseur {
+  id          String                @id @default(uuid())
+  nom         String                @unique
+  codeClient  String?
+  enCompte    Boolean               @default(false)
+  adresse     String?
+  telephone   String?
+  email       String?
+  contact     String?
+  commentaire String?
+  actif       Boolean               @default(true)
+  createdAt   DateTime              @default(now())
+  updatedAt   DateTime              @updatedAt
+  categorie   CategorieFournisseur?
+
+  @@map("fournisseurs")
+}
+
+model Article {
+  id           String           @id @default(uuid())
+  code         String           @unique
+  designation  String
+  unite        String
+  prixUnitaire Float
+  stockActuel  Float            @default(0)
+  stockMinimum Float            @default(0)
+  stockMaximum Float?
+  emplacement  String?
+  fournisseur  String?
+  actif        Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  mouvements   MouvementStock[]
+
+  @@map("articles")
+}
+
+model MouvementStock {
+  id           String        @id @default(uuid())
+  type         TypeMouvement
+  quantite     Float
+  prixUnitaire Float?
+  motif        String?
+  reference    String?
+  articleId    String
+  userId       String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  article      Article       @relation(fields: [articleId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+
+  @@map("mouvements_stock")
+}
+
+model Achat {
+  id                  String         @id @default(uuid())
+  numero              String         @unique
+  numeroFacture       String
+  montantHt           Float
+  montantTtc          Float
+  dateFacture         DateTime
+  dateReception       DateTime       @default(now())
+  datePaiement        DateTime?
+  statut              StatutAchat    @default(RECU)
+  commentaire         String?
+  affaireId           String
+  categorieId         String
+  fournisseur         String
+  bdcId               String?
+  montantFg           Float          @default(0)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  dateUpload          DateTime?
+  fichierPdf          String?
+  nomFichier          String?
+  tailleFichier       Int?
+  firebaseDownloadUrl String?
+  firebaseStoragePath String?
+  affaire             Affaire        @relation(fields: [affaireId], references: [id])
+  bdc                 Bdc?           @relation(fields: [bdcId], references: [id])
+  categorie           CategorieAchat @relation(fields: [categorieId], references: [id])
+
+  @@map("achats")
+}
+
+model PhaseChantier {
+  id              String             @id @default(uuid())
+  nom             String
+  description     String?
+  typePhase       TypePhase
+  statut          StatutPhase        @default(PLANIFIEE)
+  dateDebutPrevue DateTime?
+  dateFinPrevue   DateTime?
+  dateDebutReelle DateTime?
+  dateFinReelle   DateTime?
+  tempsEstimeH    Float              @default(0)
+  coutEstime      Float              @default(0)
+  tempsReelH      Float              @default(0)
+  coutReel        Float              @default(0)
+  ordre           Int                @default(1)
+  affaireId       String
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  tauxHoraire     Float              @default(0)
+  affaire         Affaire            @relation(fields: [affaireId], references: [id])
+  taches          TacheAffectation[]
+
+  @@map("phases_chantier")
+}
+
+model TacheAffectation {
+  id               String        @id @default(uuid())
+  nom              String
+  description      String?
+  statut           StatutTache   @default(ASSIGNEE)
+  dateAffectation  DateTime      @default(now())
+  dateDebutPrevue  DateTime?
+  dateFinPrevue    DateTime?
+  dateDebutReelle  DateTime?
+  dateFinReelle    DateTime?
+  tempsEstimeH     Float         @default(0)
+  coutEstime       Float         @default(0)
+  tempsReelH       Float         @default(0)
+  coutReel         Float         @default(0)
+  phaseId          String
+  ouvrierAffecteId String
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  pointages        Pointage[]
+  ouvrierAffecte   User          @relation(fields: [ouvrierAffecteId], references: [id])
+  phase            PhaseChantier @relation(fields: [phaseId], references: [id])
+
+  @@map("taches_affectation")
+}
+
+enum StatutAffaire {
+  PLANIFIEE
+  EN_COURS
+  TERMINEE
+  CLOTUREE
+}
+
+enum TypeHeure {
+  FAB
+  SER
+  POSE
+}
+
+enum StatutDevis {
+  EN_ATTENTE_VALIDATION
+  VALIDE
+  REFUSE
+  EXPIRE
+  REALISE
+}
+
+enum StatutBdc {
+  EN_ATTENTE
+  VALIDE
+  RECEPTIONNE
+  ANNULE
+}
+
+enum DirectionBdc {
+  SORTANT
+  ENTRANT
+}
+
+enum StatutAchat {
+  RECU
+  VALIDE
+  PAYE
+  LITIGE
+}
+
+enum RoleEnum {
+  ADMIN_SYS
+  CHARGE_AFFAIRE
+  ACHETEUR
+  CHEF_ATELIER
+  DIRIGEANT
+  CHEF_CHANTIER
+  OUVRIER_CHANTIER
+  OUVRIER_ATELIER
+  SOUS_TRAITANT
+}
+
+enum TypeMouvement {
+  ENTREE
+  SORTIE
+  AJUSTEMENT
+  INVENTAIRE
+}
+
+enum TypePhase {
+  FABRICATION
+  POSE
+  SERVICE
+  LIVRAISON
+  SAV
+}
+
+enum StatutPhase {
+  PLANIFIEE
+  EN_COURS
+  TERMINEE
+  ANNULEE
+}
+
+enum StatutTache {
+  ASSIGNEE
+  EN_COURS
+  TERMINEE
+  EN_PAUSE
+  ANNULEE
+}
+
+enum CategorieFournisseur {
+  QUINCAILLERIE
+  BOIS
+  VITRAGE
+  MENUISERIE
+  AGENCEMENT
+  FERRONNERIE
+  PEINTURE
+  ELECTRICITE
+  PLOMBERIE
+  ISOLATION
+  OUTILLAGE
+  AUTRE
+}
+
+model LoginAudit {
+  id               String   @id @default(uuid())
+  userId           String
+  ipAddress        String
+  userAgent        String
+  loginTime        DateTime @default(now())
+  loginResult      String   // SUCCESS, FAILED, BLOCKED
+  failureReason    String?
+  locationInfo     String?  // Pays, ville estimÃ©e
+  deviceInfo       String?  // Navigateur, OS
+  sessionId        String?
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@map("login_audits")
+}
+
+model LoginAttempt {
+  id               String   @id @default(uuid())
+  userId           String?
+  email            String
+  ipAddress        String
+  attemptTime      DateTime @default(now())
+  success          Boolean
+  failureReason    String?
+  userAgent        String?
+  user             User?    @relation(fields: [userId], references: [id])
+
+  @@map("login_attempts")
+}
+
+model UserSession {
+  id               String   @id @default(uuid())
+  userId           String
+  sessionToken     String   @unique
+  ipAddress        String
+  userAgent        String
+  createdAt        DateTime @default(now())
+  lastActivity     DateTime @default(now())
+  expiresAt        DateTime
+  isActive         Boolean  @default(true)
+  deviceName       String?
+  user             User     @relation(fields: [userId], references: [id])
+
+  @@map("user_sessions")
+}
+
+model UserPreferences {
+  id                    String   @id @default(uuid())
+  userId                String   @unique
+  theme                 String   @default("system") // light, dark, system
+  language              String   @default("fr")
+  notificationEmail     Boolean  @default(true)
+  notificationPush      Boolean  @default(true)
+  notificationSound     Boolean  @default(true)
+  dashboardLayout       Json?    // Configuration personnalisÃ©e du dashboard
+  autoLogoutMinutes     Int      @default(60)
+  passwordReminder      Boolean  @default(true)
+  twoFactorBackupCodes  Json?    // Codes de sauvegarde 2FA
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id])
+
+  @@map("user_preferences")
+}
+
+model SecuritySettings {
+  id                      String   @id @default(uuid())
+  maxFailedAttempts       Int      @default(5)
+  lockoutDurationMinutes  Int      @default(15)
+  passwordMinLength       Int      @default(8)
+  passwordRequireUppercase Boolean @default(true)
+  passwordRequireLowercase Boolean @default(true)
+  passwordRequireNumbers   Boolean @default(true)
+  passwordRequireSpecial   Boolean @default(true)
+  passwordMaxAge          Int      @default(90) // jours
+  sessionTimeoutMinutes   Int      @default(60)
+  require2FA              Boolean  @default(false)
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@map("security_settings")
+}
+
+// ModÃ¨les pour l'assistant Claude
+model ClaudeConversation {
+  id          String             @id @default(uuid())
+  userId      String
+  sessionId   String             @unique
+  title       String?            // Titre gÃ©nÃ©rÃ© automatiquement de la conversation
+  context     Json?              // Contexte utilisateur (rÃ´le, affaire active, etc.)
+  isActive    Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  user        User               @relation(fields: [userId], references: [id])
+  messages    ClaudeMessage[]
+
+  @@map("claude_conversations")
+}
+
+model ClaudeMessage {
+  id               String              @id @default(uuid())
+  conversationId   String
+  role             ClaudeMessageRole
+  content          String
+  metadata         Json?               // DonnÃ©es CRM utilisÃ©es, actions rapides, etc.
+  tokensUsed       Int?                // Nombre de tokens consommÃ©s
+  responseTime     Int?                // Temps de rÃ©ponse en ms
+  createdAt        DateTime            @default(now())
+  conversation     ClaudeConversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@map("claude_messages")
+}
+
+enum ClaudeMessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+// Tables pour l'amÃ©lioration du systÃ¨me de comptes utilisateurs
+
+model TwoFactorAuth {
+  id                String    @id @default(uuid())
+  userId            String    @unique
+  secret            String
+  backupCodes       Json      // Codes de rÃ©cupÃ©ration d'urgence
+  isEnabled         Boolean   @default(false)
+  lastUsed          DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("two_factor_auth")
+}
+
+model UserActivity {
+  id          String    @id @default(uuid())
+  userId      String
+  action      String    // Type d'action (LOGIN, LOGOUT, PROFILE_UPDATE, etc.)
+  details     Json?     // DÃ©tails de l'action
+  ipAddress   String
+  userAgent   String
+  location    String?   // Localisation estimÃ©e
+  deviceInfo  String?   // Informations sur l'appareil
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_activities")
+}
+
+model SecurityAlert {
+  id          String    @id @default(uuid())
+  userId      String
+  type        String    // Type d'alerte (SUSPICIOUS_LOGIN, PASSWORD_CHANGE, etc.)
+  title       String    // Titre de l'alerte
+  message     String    // Message dÃ©taillÃ©
+  severity    String    @default("INFO") // INFO, WARNING, CRITICAL
+  isRead      Boolean   @default(false)
+  isResolved  Boolean   @default(false)
+  metadata    Json?     // MÃ©tadonnÃ©es additionnelles
+  createdAt   DateTime  @default(now())
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("security_alerts")
+}
+
+// ====== MODULE OPTI-COUPE - OPTIMISEUR DE DÃ‰BIT ======
+
+// Panneaux de stock
+model Panel {
+  id              String         @id @default(cuid())
+  name            String
+  width           Float          // largeur en mm
+  height          Float          // hauteur en mm
+  thickness       Float          // Ã©paisseur en mm
+  material        String
+  grainDirection  GrainDirection
+  pricePerM2      Float
+  stock           Int            @default(1)
+  isOffcut        Boolean        @default(false)
+  depreciation    Float          @default(1.0) // coefficient dÃ©prÃ©ciation chutes
+  minOffcutWidth  Float          @default(100) // largeur mini rÃ©cupÃ©ration chute
+  minOffcutHeight Float          @default(100) // hauteur mini rÃ©cupÃ©ration chute
+  supplierCode    String?        // Code fournisseur
+  location        String?        // Emplacement stock
+  notes           String?        // Notes diverses
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  // Relations
+  usedInLayouts   CuttingLayout[]
+
+  @@map("panels")
+}
+
+// Projets de dÃ©coupe
+model CuttingProject {
+  id              String              @id @default(cuid())
+  name            String
+  description     String?
+  kerfWidth       Float               @default(3.2) // Ã©paisseur lame en mm
+  peripheralCut   Float               @default(5.0) // coupe propre pÃ©riphÃ©rique
+  status          ProjectStatus       @default(DRAFT)
+  affaireId       String?             // liaison avec affaires existantes
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  // Relations
+  pieces          Piece[]
+  layouts         CuttingLayout[]
+  optimizations   OptimizationResult[]
+
+  @@map("cutting_projects")
+}
+
+// PiÃ¨ces Ã  dÃ©couper
+model Piece {
+  id              String            @id @default(cuid())
+  projectId       String
+  reference       String            // rÃ©fÃ©rence auto/manuelle
+  name            String
+  width           Float             // largeur finie
+  height          Float             // hauteur finie
+  thickness       Float
+  material        String
+  grainDirection  GrainDirection?   // orientation souhaitÃ©e
+  quantity        Int               @default(1)
+  priority        Int               @default(0) // prioritÃ© placement
+  
+  // Placage de chant (Ã©paisseurs en mm)
+  edgeTop         Float             @default(0)
+  edgeBottom      Float             @default(0)
+  edgeLeft        Float             @default(0)
+  edgeRight       Float             @default(0)
+  
+  // Contraintes spÃ©ciales
+  canRotate       Boolean           @default(true)
+  notes           String?
+  
+  project         CuttingProject    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  placedPieces    PlacedPiece[]     // PiÃ¨ces placÃ©es dans les layouts
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@map("pieces")
+}
+
+// Plans de dÃ©coupe (layouts)
+model CuttingLayout {
+  id              String          @id @default(cuid())
+  projectId       String
+  panelId         String
+  layoutNumber    Int             // NumÃ©ro du plan (1, 2, 3...)
+  panelWidth      Float           // Dimensions du panneau utilisÃ©
+  panelHeight     Float
+  efficiency      Float           // EfficacitÃ© en %
+  wasteArea       Float           // Surface de chute en mmÂ²
+  totalCutLength  Float           // Longueur totale de coupe
+  cutCount        Int             // Nombre de coupes
+  
+  project         CuttingProject  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  panel           Panel           @relation(fields: [panelId], references: [id])
+  placedPieces    PlacedPiece[]   // PiÃ¨ces placÃ©es sur ce plan
+  offcuts         Offcut[]        // Chutes gÃ©nÃ©rÃ©es
+  createdAt       DateTime        @default(now())
+
+  @@map("cutting_layouts")
+}
+
+// PiÃ¨ces placÃ©es avec coordonnÃ©es exactes
+model PlacedPiece {
+  id              String          @id @default(cuid())
+  layoutId        String
+  pieceId         String
+  x               Float           // Position X (coin bas-gauche)
+  y               Float           // Position Y (coin bas-gauche)
+  width           Float           // Largeur rÃ©elle placÃ©e
+  height          Float           // Hauteur rÃ©elle placÃ©e
+  isRotated       Boolean         @default(false)
+  pieceNumber     Int             // NumÃ©ro de la piÃ¨ce sur le plan
+  
+  layout          CuttingLayout   @relation(fields: [layoutId], references: [id], onDelete: Cascade)
+  piece           Piece           @relation(fields: [pieceId], references: [id])
+  createdAt       DateTime        @default(now())
+
+  @@map("placed_pieces")
+}
+
+// Chutes rÃ©cupÃ©rables
+model Offcut {
+  id              String          @id @default(cuid())
+  layoutId        String
+  x               Float           // Position X de la chute
+  y               Float           // Position Y de la chute
+  width           Float           // Largeur de la chute
+  height          Float           // Hauteur de la chute
+  area            Float           // Surface en mmÂ²
+  isUsable        Boolean         @default(true) // Chute assez grande pour Ãªtre rÃ©cupÃ©rÃ©e
+  material        String          // MatÃ©riau de la chute
+  thickness       Float           // Ã‰paisseur
+  
+  layout          CuttingLayout   @relation(fields: [layoutId], references: [id], onDelete: Cascade)
+  createdAt       DateTime        @default(now())
+
+  @@map("offcuts")
+}
+
+// RÃ©sultats d'optimisation globale
+model OptimizationResult {
+  id                String               @id @default(cuid())
+  projectId         String
+  strategy          OptimizationStrategy
+  totalPanelsUsed   Int
+  totalEfficiency   Float                // EfficacitÃ© globale en %
+  totalWaste        Float                // % de chutes globales
+  totalCost         Float                // CoÃ»t total matÃ©riau
+  totalCutLength    Float                // longueur totale de coupe
+  totalCutTime      Float?               // Temps de coupe estimÃ© (minutes)
+  algorithm         String               @default("BOTTOM_LEFT_FILL") // Algorithme utilisÃ©
+  metrics           String               // MÃ©triques dÃ©taillÃ©es JSON
+  isOptimal         Boolean              @default(false)
+  
+  project           CuttingProject       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt         DateTime             @default(now())
+
+  @@map("optimization_results")
+}
+
+// Ã‰numÃ©rations OptiCoupe
+enum GrainDirection {
+  HORIZONTAL      // fil horizontal â†’
+  VERTICAL        // fil vertical â†‘
+  NONE           // pas de contrainte
+}
+
+enum OptimizationStrategy {
+  EFFICIENCY_FIRST    // Maximiser l'efficacitÃ© matiÃ¨re
+  COST_MINIMIZE      // Minimiser le coÃ»t total
+  CUT_MINIMIZE       // Minimiser les coupes
+  GRAIN_RESPECT      // Respecter le fil du bois
+  SPEED_OPTIMIZE     // Optimiser pour la vitesse de coupe
+}
+
+enum ProjectStatus {
+  DRAFT              // Brouillon
+  READY_TO_OPTIMIZE  // PrÃªt Ã  optimiser
+  OPTIMIZED          // OptimisÃ©
+  IN_PRODUCTION      // En cours de production
+  COMPLETED          // TerminÃ©
+}
+
+// ====== MODULE PLANNING Ã‰QUIPE ======
+
+// Table principale pour les affectations de planning
+model PlanningAffectation {
+  id                String              @id @default(uuid())
+  affaireId         String              // Lien vers l'affaire
+  userId            String              // Ouvrier/sous-traitant affectÃ©
+  dateAffectation   DateTime            // Date de l'affectation
+  periode           PeriodePlanning     // MATIN ou APREM
+  typeActivite      TypeActiviteEnum    // FABRICATION ou POSE
+  statut            StatutAffectation   @default(ACTIVE)
+  commentaire       String?
+  couleurPersonne   String?             // Code couleur hex (#FF5733) - optionnel, sinon utilise User.couleurPlanning
+  ordreAffichage    Int                 @default(1) // Pour gÃ©rer l'ordre d'affichage
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  // Relations
+  affaire           Affaire             @relation(fields: [affaireId], references: [id], onDelete: Cascade)
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([affaireId, userId, dateAffectation, periode])
+  @@map("planning_affectations")
+}
+
+// Ã‰numÃ©rations pour le planning Ã©quipe
+enum PeriodePlanning {
+  MATIN
+  APREM
+}
+
+enum TypeActiviteEnum {
+  FABRICATION
+  POSE
+}
+
+enum StatutAffectation {
+  ACTIVE
+  ANNULEE
+  TERMINEE
+}
+
+enum StatutContractuel {
+  SALARIE
+  SOUS_TRAITANT
+}
+
+// ====== MODULE ESTIMATION VS RÃ‰EL - Ã‰TAPE 7 ======
+
+// Table principale pour stocker les estimations structurÃ©es d'une affaire
+model EstimationAffaire {
+  id                                String                     @id @default(uuid())
+  affaireId                         String
+  version                           Int                        @default(1)
+  statut                            StatutEstimation           @default(DRAFT)
+  dateCreation                      DateTime                   @default(now())
+  dateValidation                    DateTime?
+  validePar                         String?
+  commentaire                       String?
+
+  // DonnÃ©es d'estimation globales
+  montantTotalEstime                Float                      @default(0)
+  dureeTotaleEstimee                Int                        @default(0) // en demi-journÃ©es
+  coutMainOeuvreEstime              Float                      @default(0)
+  coutAchatsEstime                  Float                      @default(0)
+  coutFraisGenerauxEstime           Float                      @default(0)
+  margeEstimee                      Float                      @default(0)
+
+  // RÃ©partition temporelle estimÃ©e
+  demiJourneesFabricationEstimees   Int                        @default(0)
+  demiJourneesPoseEstimees          Int                        @default(0)
+  nombrePersonnesEstime             Int                        @default(2)
+  tauxHoraireMoyenEstime            Float                      @default(85)
+
+  // Dates estimÃ©es
+  dateCommencementEstimee           DateTime?
+  dateReceptionEstimee              DateTime?
+
+  // ðŸ”§ CORRECTION : DonnÃ©es Ã©tendues des blocs (JSON)
+  donneesEtendues                   String?                    // JSON pour stocker categoriesAchats, repartitionAchats, etc.
+
+  createdAt                         DateTime                   @default(now())
+  updatedAt                         DateTime                   @updatedAt
+
+  // Relations
+  affaire                           Affaire                    @relation(fields: [affaireId], references: [id], onDelete: Cascade)
+  validateur                        User?                      @relation("ValidationEstimation", fields: [validePar], references: [id], onDelete: SetNull)
+  details                           EstimationDetail[]
+  comparaisons                      ComparaisonEstimationReel[]
+  ajustements                       AjustementEstimation[]
+
+  @@map("estimations_affaire")
+}
+
+// Table pour les dÃ©tails d'estimation par catÃ©gorie
+model EstimationDetail {
+  id                String             @id @default(uuid())
+  estimationId      String
+  categorie         CategorieEstimation
+  sousCategorie     String?            // FAB, POSE, SER pour main d'oeuvre / code catÃ©gorie pour achats
+  libelle           String
+  quantiteEstimee   Float              @default(0)
+  uniteQuantite     String?            // h, demi-j, â‚¬, unitÃ©, etc.
+  prixUnitaireEstime Float             @default(0)
+  montantEstime     Float              @default(0)
+  commentaire       String?
+  ordre             Int                @default(1)
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  // Relations
+  estimation        EstimationAffaire  @relation(fields: [estimationId], references: [id], onDelete: Cascade)
+
+  @@map("estimations_detail")
+}
+
+// Table de comparaison estimation vs rÃ©alisation
+model ComparaisonEstimationReel {
+  id                             String                    @id @default(uuid())
+  affaireId                      String
+  estimationId                   String
+  dateComparaison                DateTime                  @default(now())
+  typeComparaison                TypeComparaison           @default(SNAPSHOT)
+  statut                         StatutComparaison         @default(EN_COURS)
+
+  // DonnÃ©es rÃ©elles au moment de la comparaison
+  montantReelCalcule             Float                     @default(0)
+  dureeTotaleReelle              Int                       @default(0) // en demi-journÃ©es
+  coutMainOeuvreReel             Float                     @default(0)
+  coutAchatsReel                 Float                     @default(0)
+  coutFraisGenerauxReel          Float                     @default(0)
+  margeReelle                    Float                     @default(0)
+
+  // RÃ©partition temporelle rÃ©elle
+  demiJourneesFabricationReelles Int                       @default(0)
+  demiJourneesPoseReelles        Int                       @default(0)
+  nombrePersonnesReel            Int                       @default(0)
+  tauxHoraireMoyenReel           Float                     @default(0)
+
+  // Dates rÃ©elles
+  dateCommencementReelle         DateTime?
+  dateReceptionReelle            DateTime?
+
+  // Calculs d'Ã©carts (en %)
+  ecartMontantPourcentage        Float                     @default(0)
+  ecartDureePourcentage          Float                     @default(0)
+  ecartMainOeuvrePourcentage     Float                     @default(0)
+  ecartAchatsPourcentage         Float                     @default(0)
+  ecartFraisGenerauxPourcentage  Float                     @default(0)
+  ecartMargePourcentage          Float                     @default(0)
+
+  // MÃ©tadonnÃ©es
+  calculePar                     String?                   // ID utilisateur qui a dÃ©clenchÃ© le calcul
+  commentaire                    String?
+  donneesCalcul                  String?                   // JSON avec dÃ©tails du calcul
+
+  createdAt                      DateTime                  @default(now())
+  updatedAt                      DateTime                  @updatedAt
+
+  // Relations
+  affaire                        Affaire                   @relation(fields: [affaireId], references: [id], onDelete: Cascade)
+  estimation                     EstimationAffaire         @relation(fields: [estimationId], references: [id], onDelete: Cascade)
+  calculateur                    User?                     @relation("CalculComparaison", fields: [calculePar], references: [id], onDelete: SetNull)
+  ecartsDetail                   EcartDetail[]
+
+  @@map("comparaisons_estimation_reel")
+}
+
+// Table pour les dÃ©tails des Ã©carts par catÃ©gorie
+model EcartDetail {
+  id                String                    @id @default(uuid())
+  comparaisonId     String
+  categorie         CategorieEstimation
+  sousCategorie     String?
+  libelle           String
+  valeurEstimee     Float                     @default(0)
+  valeurReelle      Float                     @default(0)
+  ecartAbsolu       Float                     @default(0)
+  ecartPourcentage  Float                     @default(0)
+  uniteValeur       String?
+  commentaire       String?
+  ordre             Int                       @default(1)
+
+  createdAt         DateTime                  @default(now())
+
+  // Relations
+  comparaison       ComparaisonEstimationReel @relation(fields: [comparaisonId], references: [id], onDelete: Cascade)
+
+  @@map("ecarts_detail")
+}
+
+// Table d'historique des ajustements d'estimation
+model AjustementEstimation {
+  id                String            @id @default(uuid())
+  estimationId      String
+  typeAjustement    TypeAjustement
+  categorieAjustee  String
+  ancienneValeur    Float
+  nouvelleValeur    Float
+  motifAjustement   String
+  dateAjustement    DateTime          @default(now())
+  ajustePar         String
+  valide            Boolean           @default(false)
+  dateValidation    DateTime?
+  validePar         String?
+
+  createdAt         DateTime          @default(now())
+
+  // Relations
+  estimation        EstimationAffaire @relation(fields: [estimationId], references: [id], onDelete: Cascade)
+  ajusteur          User              @relation("AjustementPar", fields: [ajustePar], references: [id], onDelete: Restrict)
+  validateur        User?             @relation("ValidationAjustement", fields: [validePar], references: [id], onDelete: SetNull)
+
+  @@map("ajustements_estimation")
+}
+
+// Ã‰numÃ©rations pour l'estimation vs rÃ©el
+enum StatutEstimation {
+  DRAFT
+  VALIDEE
+  ARCHIVEE
+}
+
+enum CategorieEstimation {
+  MAIN_OEUVRE
+  ACHATS
+  FRAIS_GENERAUX
+  MARGE
+}
+
+enum TypeComparaison {
+  SNAPSHOT
+  TEMPS_REEL
+  FINAL
+}
+
+enum StatutComparaison {
+  EN_COURS
+  TERMINEE
+}
+
+enum TypeAjustement {
+  CORRECTION
+  AVENANT
+  REEVALUATION
+}
+
+// ModÃ¨le pour la gestion des documentations d'affaires
+model Documentation {
+  id                    Int      @id @default(autoincrement())
+  affaireId             String
+  nom                   String
+  nomOriginal           String
+  chemin                String
+  type                  String
+  categorie             String   @default("autres")
+  sousCategorie         String?
+  taille                BigInt
+  mimeType              String?
+  description           String?
+  version               Int      @default(1)
+  uploadePar            String
+  uploadeParId          String
+  dateUpload            DateTime @default(now())
+  derniereModification  DateTime @updatedAt
+  nombreTelechargements Int      @default(0)
+  estArchive            Boolean  @default(false)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  // Relations
+  affaire    Affaire @relation(fields: [affaireId], references: [id], onDelete: Cascade)
+  uploadeur  User    @relation(fields: [uploadeParId], references: [id], onDelete: Restrict)
+
+  @@index([affaireId])
+  @@index([categorie])
+  @@index([uploadeParId])
+  @@index([dateUpload])
+  @@map("documentations")
+}
+
+// ====== MODULE POINTAGE HEURES ======
+
+// Table pour la gestion des heures de travail quotidiennes
+model PointageHeures {
+  id                 String            @id @default(uuid())
+  userId             String            // EmployÃ© ou sous-traitant
+  datePointage       DateTime          // Date du pointage
+  heuresTravaillees  Float             // Nombre d'heures travaillÃ©es
+  typePresence       TypePresenceEnum  // Type de prÃ©sence
+  lieuTravail        LieuTravailEnum   // Lieu de travail
+  heureDebut         String?           // Heure de dÃ©but (format HH:mm)
+  heureFin           String?           // Heure de fin (format HH:mm)
+  tempsPauseMinutes  Int?              @default(0) // Temps de pause en minutes
+  commentaire        String?           // Commentaire ou notes
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  // Relations
+  user               User              @relation("PointageHeuresUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, datePointage])
+  @@index([datePointage])
+  @@index([userId])
+  @@map("pointage_heures")
+}
+
+// Ã‰numÃ©rations pour le pointage des heures
+enum TypePresenceEnum {
+  PRESENT
+  ABSENT
+  RETARD
+  CONGE
+  MALADIE
+}
+
+enum LieuTravailEnum {
+  ATELIER_CAME
+  ATELIER_HOSSEGOR
+  CHANTIER
+}
+
+enum TailleCacaBoudin {
+  PETIT
+  MOYEN
+  GROS
+  ENORME
+}
+
+model CacaBoudin {
+  id        String             @id @default(uuid())
+  nom       String
+  couleur   String
+  taille    TailleCacaBoudin
+  odeur     Int                // de 1 Ã  10
+  dateCaca  DateTime           // Date du CACA Boudin
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@map("caca_boudin")
+}
+

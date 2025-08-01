@@ -1,0 +1,15 @@
+# Configuration ultra-simple pour O2Switch
+AddType application/javascript .js
+AddType text/css .css
+
+RewriteEngine On
+RewriteBase /entreprise-organiser/
+
+# Fichiers statiques - STOP
+RewriteRule ^assets/ - [L]
+RewriteRule \.(js|css|json|svg|png|jpg|jpeg|gif|ico)$ - [L]
+
+# SPA
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.html [L]

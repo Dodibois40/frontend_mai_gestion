@@ -1,0 +1,12 @@
+﻿{
+  "name": "mai-gestion-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Build avec Dockerfile'",
+    "start": "echo 'Start avec Dockerfile'"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}

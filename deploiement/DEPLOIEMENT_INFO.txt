@@ -1,0 +1,44 @@
+﻿INFORMATIONS DE DEPLOIEMENT MAI GESTION
+=======================================
+Date : 26/07/2025 13:57
+
+MYSQL (cPanel)
+--------------
+Base : cexe9174_mai_gestion
+User : cexe9174_mai_user
+Pass : Do@66001699
+
+JWT SECRET
+----------
+xK9mP3nQ7rT5vY2bC4dF6gH8jL1aS0wE
+
+FTP
+---
+Serveur : ftp.cexe9174.odns.fr
+User : crm@crm.cexe9174.odns.fr
+Pass : Do@66001699
+
+URLS PRODUCTION
+---------------
+Frontend : https://crm.lamanufacturedubois.com
+Backend : https://api.lamanufacturedubois.com
+
+FICHIERS PRETS
+--------------
+Backend : deploiement\build\backend\
+Frontend : deploiement\build\frontend\
+
+CPANEL NODE.JS
+--------------
+App configuree avec les variables :
+- NODE_ENV = production
+- PORT = 3000
+- DATABASE_URL = mysql://...
+- JWT_SECRET = xK9mP...
+
+PROCHAINES ETAPES
+-----------------
+1. Upload FTP des fichiers
+2. Run NPM Install dans cPanel
+3. Restart l'application Node.js
+4. Tester les URLs

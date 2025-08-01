@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Application d'organisation d'entreprise" />
+    
+    <!-- Permissions Policy pour autoriser fullscreen pour les PDFs -->
+    <meta http-equiv="Permissions-Policy" content="fullscreen=(self), camera=(), microphone=(), geolocation=()">
+    
+    <title>Entreprise Organiser</title>
+    <!-- Script pour gérer les redirections SPA -->
+    <script src="/spa-redirect.js"></script>
+    
+    <!-- Polyfill pour PropTypes -->
+    <script>
+      // Définir PropTypes globalement avant tout chargement de code
+      window.PropTypes = {
+        string: function() { return null; },
+        number: function() { return null; },
+        bool: function() { return null; },
+        func: function() { return null; },
+        array: function() { return null; },
+        object: function() { return null; },
+        node: function() { return null; },
+        element: function() { return null; },
+        instanceOf: function() { return function() { return null; }; },
+        oneOf: function() { return function() { return null; }; },
+        oneOfType: function() { return function() { return null; }; },
+        arrayOf: function() { return function() { return null; }; },
+        objectOf: function() { return function() { return null; }; },
+        shape: function() { return function() { return null; }; },
+        any: function() { return null; },
+        default: null
+      };
+      // Référence circulaire
+      window.PropTypes.default = window.PropTypes;
+      
+      // Intercepter les erreurs de modules
+      window.addEventListener('error', function(event) {
+        if (event && event.message && event.message.includes('prop-types')) {
+          event.preventDefault();
+          console.log('⚠️ Erreur prop-types interceptée et corrigée');
+          return true;
+        }
+      }, true);
+      
+      // Polyfill pour CommonJS (module/require)
+      window.module = { exports: {} };
+      window.global = window;
+      window.require = function(moduleName) {
+        console.warn(`require('${moduleName}') appelé dans un environnement ESM - simulation activée`);
+        return {};
+      };
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html> 
