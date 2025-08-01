@@ -17,10 +17,10 @@ const ParametresEntrepriseFixed = () => {
 
   // Charger les paramètres d'entreprise
   const loadParametres = async () => {
-    setIsLoading(true);
-    try {
-      const token = localStorage.getItem('auth' + '_token');
-      const response = await fetch('/api/parametres', {
+          setIsLoading(true);
+      try {
+        const token = localStorage.getItem('auth' + '_token');
+        const response = await fetch('/api/parametres', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -52,11 +52,11 @@ const ParametresEntrepriseFixed = () => {
   };
 
   // Sauvegarder un paramètre
-  const saveParametre = async (cle, valeur) => {
-    try {
-      const token = localStorage.getItem('auth' + '_token');
-      
-      // D'abord, chercher le paramètre par sa clé pour obtenir son ID
+      const saveParametre = async (cle, valeur) => {
+      try {
+        const token = localStorage.getItem('auth' + '_token');
+        
+        // D'abord, chercher le paramètre par sa clé pour obtenir son ID
       const searchResponse = await fetch(`/api/parametres/key/${cle}`, {
         headers: {
           'Authorization': `Bearer ${token}`,

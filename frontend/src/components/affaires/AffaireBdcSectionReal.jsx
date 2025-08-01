@@ -570,8 +570,12 @@ const AffaireBdcSectionReal = ({ affaireId, onUpdate }) => {
     
     if (bdc.firebaseDownloadUrl && bdc.firebaseDownloadUrl.includes('firebasestorage.googleapis.com')) {
       console.log('🔥 Firebase détecté - FORCER le proxy pour éviter CORS');
+<<<<<<< HEAD
                     const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
               pdfUrl = `${baseUrl}/api/bdc/${bdc.id}/pdf-proxy`;
+=======
+      pdfUrl = `http://localhost:8000/api/bdc/${bdc.id}/pdf-proxy`;
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       filename = bdc.nomFichier || `BDC_${bdc.numero}.pdf`;
     } else {
       console.log('📄 URL directe utilisée');

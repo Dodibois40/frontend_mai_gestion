@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+=======
+import React, { useState, useEffect, useMemo } from 'react';
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 import { fraisGenerauxService } from '../../services/fraisGenerauxService';
 import { planningEquipeService } from '../../services/planningEquipeService';
 import { calculerTotauxHistoriquesAffaire } from '../../utils/affairesHistorique';
@@ -24,6 +28,7 @@ const CoutMainOeuvreSimple = ({
   const [fraisGenerauxSemaine, setFraisGenerauxSemaine] = useState(null);
   const [loadingFraisGenerauxSemaine, setLoadingFraisGenerauxSemaine] = useState(false);
 
+<<<<<<< HEAD
   // 🚀 OPTIMISATION : Cache et debouncing
   const cacheRef = useRef({
     historiques: {},
@@ -34,6 +39,8 @@ const CoutMainOeuvreSimple = ({
   const debounceTimersRef = useRef({});
   const isLoadingRef = useRef(false);
 
+=======
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
   // Configuration par défaut pour les heures par période
   const HEURES_PAR_PERIODE = {
     MATIN: 4,
@@ -45,6 +52,11 @@ const CoutMainOeuvreSimple = ({
    * Base FIXE de 2125,92€ par semaine divisée par le nombre total d'affectations
    */
   const calculerMutualisationDynamique = (affectationsData, fraisGenerauxData) => {
+<<<<<<< HEAD
+=======
+    console.log('🧮 Calcul SIMPLE des frais généraux...');
+    
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     // SYSTÈME SIMPLE : 254,29 € FIXE par affectation (1 affectation = 1 demi-journée)
     const COUT_FIXE_PAR_AFFECTATION = 254.29;
     
@@ -59,6 +71,16 @@ const CoutMainOeuvreSimple = ({
     const fraisGenerauxParPersonne = COUT_FIXE_PAR_AFFECTATION;
     const totalFraisGenerauxPeriode = totalAffectations * COUT_FIXE_PAR_AFFECTATION;
     
+<<<<<<< HEAD
+=======
+    console.log('📊 Période analysée:', { dateDebut, dateFin, nombreDemiJourneesPeriode });
+    console.log('💰 SYSTÈME SIMPLE: 254,29 € FIXE par affectation');
+    console.log('👥 Total affectations:', totalAffectations);
+    console.log('💼 Coût par affectation:', fraisGenerauxParPersonne, '€ (FIXE)');
+    console.log('💡 Calcul total:', totalAffectations, '× 254,29 € =', totalFraisGenerauxPeriode.toFixed(2), '€');
+    console.log('✅ Calcul simple terminé');
+    
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     return {
       fraisGenerauxParPersonne,
       totalFraisGenerauxPeriode,
@@ -138,6 +160,7 @@ const CoutMainOeuvreSimple = ({
     fetchFraisGeneraux();
   }, []);
 
+<<<<<<< HEAD
   // 🚀 OPTIMISATION : Fonction debounced pour les frais généraux de la semaine
   const fetchFraisGenerauxSemaine = useCallback(async () => {
     if (!weekDays || weekDays.length === 0) {
@@ -183,11 +206,42 @@ const CoutMainOeuvreSimple = ({
       }
     }, 500); // Debounce de 500ms
   }, [weekDays]);
+=======
+  // 📊 NOUVEAU : Fonction pour récupérer les frais généraux de la semaine
+  const fetchFraisGenerauxSemaine = async () => {
+    if (!weekDays || weekDays.length === 0) {
+      console.log('📊 Pas de jours de semaine disponibles pour récupérer les frais généraux');
+      return;
+    }
+
+    setLoadingFraisGenerauxSemaine(true);
+    
+    try {
+      // Utiliser le premier jour de la semaine comme date de référence
+      const dateRef = weekDays[0];
+      console.log(`📊 Récupération des frais généraux pour la semaine du ${dateRef}... (${new Date().toISOString()})`);
+      console.log(`📊 weekDays complets:`, weekDays);
+      
+      const response = await planningEquipeService.getFraisGenerauxSemaine(dateRef);
+      
+      setFraisGenerauxSemaine(response);
+      console.log('📊 Frais généraux semaine récupérés:', response);
+      console.log('📊 Détails par jour reçus:', response?.detailsParJour);
+      
+    } catch (error) {
+      console.error('❌ Erreur lors de la récupération des frais généraux de la semaine:', error);
+      setFraisGenerauxSemaine(null);
+    } finally {
+      setLoadingFraisGenerauxSemaine(false);
+    }
+  };
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 
   // Récupérer l'historique des affectations pour chaque ouvrier sur chaque affaire
   // 🚀 NOUVELLE LOGIQUE SIMPLIFIÉE : Récupérer directement les totaux par affaire
   const [totauxHistoriquesAffaires, setTotauxHistoriquesAffaires] = useState({});
 
+<<<<<<< HEAD
   // 🚀 OPTIMISATION : Fonction parallélisée et cachée pour les totaux historiques
   const fetchTotauxHistoriquesAffaires = useCallback(async () => {
     if (!affaires || affaires.length === 0) return;
@@ -376,12 +430,126 @@ const CoutMainOeuvreSimple = ({
 
   /**
    * 🚀 OPTIMISATION : Calculer les coûts de main d'œuvre avec cache intelligent
+=======
+  const fetchTotauxHistoriquesAffaires = async () => {
+    if (!affaires) return;
+
+    const nouveauxTotaux = {};
+    console.log('🔄 Début récupération totaux historiques par affaire...');
+
+    try {
+      for (const affaire of affaires) {
+        try {
+          console.log(`📊 Récupération totaux historiques pour affaire ${affaire.numero}...`);
+          
+          const totaux = await planningEquipeService.getTotauxHistoriquesAffaire(affaire.id);
+          nouveauxTotaux[affaire.id] = totaux;
+          
+          console.log(`✅ Totaux récupérés pour affaire ${affaire.numero}:`, {
+            totalAffectations: totaux.totalAffectations,
+            totalHeures: totaux.totalHeures,
+            nombreOuvriersTotal: totaux.nombreOuvriersTotal
+          });
+          
+        } catch (error) {
+          console.error(`❌ Erreur totaux affaire ${affaire.id}:`, error);
+          nouveauxTotaux[affaire.id] = null;
+        }
+      }
+
+      console.log('📊 Tous les totaux historiques récupérés:', nouveauxTotaux);
+      setTotauxHistoriquesAffaires(nouveauxTotaux);
+      return nouveauxTotaux;
+      
+    } catch (error) {
+      console.error('❌ Erreur globale récupération totaux historiques:', error);
+      return {};
+    }
+  };
+
+  const fetchHistoriquesOuvriers = async () => {
+    // Garder la méthode pour compatibilité, mais simplifiée
+    if (!planningData || !affaires) return;
+
+    const nouveauxHistoriques = {};
+    console.log('🔄 Début récupération historiques ouvriers...');
+
+    try {
+      for (const affaire of affaires) {
+        const affectationsAffaire = planningData[affaire.id] || [];
+        const ouvriersUniques = [...new Set(affectationsAffaire.map(a => a.userId))];
+        
+        for (const userId of ouvriersUniques) {
+          const cle = `${userId}-${affaire.id}`;
+          
+          try {
+            const historique = await planningEquipeService.getHistoriqueOuvrierAffaire(userId, affaire.id);
+            nouveauxHistoriques[cle] = historique;
+          } catch (error) {
+            console.error(`❌ Erreur historique ${userId}-${affaire.id}:`, error);
+            nouveauxHistoriques[cle] = null;
+          }
+        }
+      }
+      
+      setHistoriquesOuvriers(nouveauxHistoriques);
+      return nouveauxHistoriques;
+    } catch (error) {
+      console.error('❌ Erreur globale récupération historiques:', error);
+      return {};
+    }
+  };
+
+  // Récupérer les historiques quand les données changent
+  useEffect(() => {
+    if (planningData && affaires && affaires.length > 0) {
+      console.log('🔄 Déclenchement fetchHistoriquesOuvriers...');
+      fetchHistoriquesOuvriers();
+    }
+  }, [planningData, affaires]);
+
+  // 🚀 NOUVEAU : Récupérer les totaux historiques des affaires
+  useEffect(() => {
+    if (affaires && affaires.length > 0) {
+      console.log('🔄 Déclenchement fetchTotauxHistoriquesAffaires...');
+      fetchTotauxHistoriquesAffaires();
+    }
+  }, [affaires]);
+
+  // 📊 NOUVEAU : Récupérer les frais généraux de la semaine
+  useEffect(() => {
+    if (weekDays && weekDays.length > 0) {
+      console.log('🔄 Déclenchement fetchFraisGenerauxSemaine...');
+      fetchFraisGenerauxSemaine();
+    }
+  }, [weekDays]);
+
+  // 🚀 NOUVEAU : Force la récupération des historiques avant l'affichage
+  const [historiquesCharges, setHistoriquesCharges] = useState(false);
+  
+  useEffect(() => {
+    const verifierHistoriques = async () => {
+      if (planningData && affaires && affaires.length > 0) {
+        console.log('🔄 Vérification état historiques...');
+        await fetchHistoriquesOuvriers();
+        await fetchTotauxHistoriquesAffaires();
+        setHistoriquesCharges(true);
+      }
+    };
+    
+    verifierHistoriques();
+  }, [planningData, affaires]);
+
+  /**
+   * Calculer les coûts de main d'œuvre avec frais généraux
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
    */
   const calculerCouts = useMemo(() => {
     if (!planningData || !ouvriers || !affaires) {
       return { coutsParAffaire: {}, totaux: {} };
     }
 
+<<<<<<< HEAD
     // 🚀 Vérifier si on peut utiliser le cache pour éviter les recalculs
     const calculDataHash = JSON.stringify({
       planningKeys: Object.keys(planningData).sort(),
@@ -392,6 +560,9 @@ const CoutMainOeuvreSimple = ({
     });
 
     // console.log('🧮 Calcul des coûts de main d\'œuvre avec frais généraux (optimisé)...');
+=======
+    console.log('🧮 Calcul des coûts de main d\'œuvre avec frais généraux...');
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 
     // Récupérer tous les ouvriers avec leurs taux horaires
     const tousOuvriers = [
@@ -463,8 +634,19 @@ const CoutMainOeuvreSimple = ({
         const coutMainOeuvreAffectation = heures * tarifCout;
         const venteMainOeuvreAffectation = heures * tarifVente;
         
+<<<<<<< HEAD
         // Log informatif retiré pour éviter les boucles infinies
         // console.log(`👤 ${ouvrier.nom} ${ouvrier.prenom}:`, { ... });
+=======
+        // Log informatif sur les tarifs utilisés
+        console.log(`👤 ${ouvrier.nom} ${ouvrier.prenom}:`, {
+          tarifCout: `${tarifCout}€/h`,
+          tarifVente: `${tarifVente}€/h`,
+          heures: `${heures}h`,
+          coutTotal: `${coutMainOeuvreAffectation}€`,
+          venteTotal: `${venteMainOeuvreAffectation}€`
+        });
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
         // 🚀 NOUVELLE LOGIQUE : Utiliser la mutualisation dynamique au lieu du montant fixe
         const coutFraisGenerauxAffectation = mutualisationResult.fraisGenerauxParPersonne;
 
@@ -561,10 +743,17 @@ const CoutMainOeuvreSimple = ({
       mutualisation: mutualisationResult
     };
 
+<<<<<<< HEAD
     // console.log('✅ Coûts calculés avec frais généraux:', { coutsParAffaire, totaux });
 
     return { coutsParAffaire, totaux };
   }, [planningData, ouvriers, affaires, fraisGeneraux, totauxHistoriquesAffaires]);
+=======
+    console.log('✅ Coûts calculés avec frais généraux:', { coutsParAffaire, totaux });
+
+    return { coutsParAffaire, totaux };
+  }, [planningData, ouvriers, affaires, fraisGeneraux]);
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 
   // Mettre à jour les états quand les calculs changent
   useEffect(() => {
@@ -866,8 +1055,16 @@ const CoutMainOeuvreSimple = ({
                 // 🚀 NOUVELLE LOGIQUE SIMPLIFIÉE : Utiliser les totaux historiques de la nouvelle API
                 const totauxAffaire = totauxHistoriquesAffaires[affaire.affaire.id];
                 
+<<<<<<< HEAD
                 // Log retiré pour éviter les boucles infinies
                 // console.log(`🔍 Totaux historiques pour affaire ${affaire.affaire.numero}:`, totauxAffaire);
+=======
+                console.log(`🔍 Totaux historiques pour affaire ${affaire.affaire.numero}:`, {
+                  affaireId: affaire.affaire.id,
+                  totauxDisponibles: !!totauxAffaire,
+                  totaux: totauxAffaire
+                });
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
                 
                 // 🔄 Si les données historiques ne sont pas encore disponibles, afficher un indicateur de chargement
                 if (!totauxAffaire) {

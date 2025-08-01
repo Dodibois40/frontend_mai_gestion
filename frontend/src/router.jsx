@@ -47,7 +47,15 @@ import BdcList from './pages/achat/BdcList';
 import BdcForm from './pages/achat/BdcForm';
 import BdcDetails from './pages/achat/BdcDetails';
 
+<<<<<<< HEAD
 
+=======
+import Pointages from './pages/Pointages';
+import PointageCalendarView from './pages/pointage/PointageCalendarView';
+import PointageForm from './pages/pointage/PointageForm';
+import PointageValidation from './pages/pointage/PointageValidation';
+import PointageStats from './pages/pointage/PointageStats';
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 
 import UsersList from './pages/users/UsersList';
 import UsersForm from './pages/users/UserForm';
@@ -59,6 +67,11 @@ import Notifications from './pages/Notifications';
 // Planning
 import PlanningList from './pages/planning/PlanningList';
 import PlanningForm from './pages/planning/PlanningForm';
+<<<<<<< HEAD
+=======
+import PlanningInteractifPage from './pages/PlanningInteractifPage';
+import PlanningInteractifFullPage from './pages/PlanningInteractifFullPage';
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 import FullPageLayout from './components/FullPageLayout';
 
 // Autres pages
@@ -74,7 +87,13 @@ import UserForm from './pages/user/UserForm';
 
 import FirebaseTestPage from './pages/test/FirebaseTestPage';
 import PdfTestDiagnostic from './components/test/PdfTestDiagnostic';
+<<<<<<< HEAD
 
+=======
+import ClaudeTestPage from './pages/ClaudeTestPage';
+import ClaudeAssistantPage from './pages/ClaudeAssistantPage';
+import TestPlanning from './pages/TestPlanning';
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 import TestCouleursPlanningEquipe from './pages/TestCouleursPlanningEquipe';
 import PlanningTest from './components/test/PlanningTest';
 import TestCalculFraisGeneraux from './components/test/TestCalculFraisGeneraux';
@@ -93,6 +112,7 @@ import CutListOptimizer from './pages/OptiCoupe/CutListOptimizer';
 // Module Planning Équipe
 import PlanningEquipe from './pages/planning/PlanningEquipe';
 
+<<<<<<< HEAD
 // Module Améliorations CRM
 import AmeliorationsList from './pages/ameliorations/AmeliorationsList';
 import AmeliorationForm from './pages/ameliorations/AmeliorationForm';
@@ -101,6 +121,13 @@ import AmeliorationDetails from './pages/ameliorations/AmeliorationDetails';
 
 
 
+=======
+// Module CACA Boudin
+import CacaBoudin from './pages/CacaBoudin';
+
+// Module Gestion des Heures
+import GestionHeures from './pages/GestionHeures';
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
 
 // Composant pour protéger les routes
 const ProtectedRoute = ({ children }) => {
@@ -260,12 +287,31 @@ const Router = () => {
           <Route path="debit" element={<CutListOptimizer />} />
         </Route>
         
+<<<<<<< HEAD
         {/* Routes Améliorations CRM */}
         <Route path="ameliorations">
           <Route index element={<AmeliorationsList />} />
           <Route path="nouveau" element={<AmeliorationForm />} />
           <Route path=":id" element={<AmeliorationDetails />} />
           <Route path=":id/modifier" element={<AmeliorationForm />} />
+=======
+        {/* Routes de Pointages - Page principale avec onglets intégrés */}
+        <Route path="pointages" element={<Pointages />} />
+        
+        {/* Route de Gestion des Heures */}
+        <Route path="gestion-heures" element={<GestionHeures />} />
+        
+        {/* Route CACA Boudin */}
+        <Route path="caca-boudin" element={<CacaBoudin />} />
+        
+        {/* Routes individuelles pour les pointages (pour navigation directe si nécessaire) */}
+        <Route path="pointage">
+          <Route path="calendrier" element={<PointageCalendarView />} />
+          <Route path="saisie" element={<PointageForm />} />
+          <Route path="saisie/:id" element={<PointageForm />} />
+          <Route path="validation" element={<PointageValidation />} />
+          <Route path="statistiques" element={<PointageStats />} />
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
         </Route>
         
         {/* Routes d'inventaire - MODULE EN SOMMEIL */}
@@ -322,10 +368,24 @@ const Router = () => {
         {/* Route de test Firebase */}
         <Route path="firebase-test" element={<FirebaseTestPage />} />
         
+<<<<<<< HEAD
         {/* Route de diagnostic PDF */}
         <Route path="pdf-diagnostic" element={<PdfTestDiagnostic />} />
         
 
+=======
+        {/* Route de test Claude */}
+        <Route path="claude-test" element={<ClaudeTestPage />} />
+        
+        {/* Route Claude Assistant */}
+        <Route path="claude" element={<ClaudeAssistantPage />} />
+        
+        {/* Route de diagnostic PDF */}
+        <Route path="pdf-diagnostic" element={<PdfTestDiagnostic />} />
+        
+        {/* Route de test Planning Interactif */}
+        <Route path="test-planning" element={<TestPlanning />} />
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
         
         {/* Route de test Couleurs Planning Équipe */}
         <Route path="test-couleurs-planning-equipe" element={<TestCouleursPlanningEquipe />} />
@@ -334,10 +394,25 @@ const Router = () => {
         <Route path="test-planning-affaire" element={<PlanningTest />} />
         <Route path="test-frais-generaux" element={<TestCalculFraisGeneraux />} />
         
+<<<<<<< HEAD
 
       </Route>
 
 
+=======
+        {/* Route Planning Interactif intégré */}
+        <Route path="planning-interactif" element={<PlanningInteractifPage />} />
+      </Route>
+
+      {/* Route Planning Pleine Page */}
+      <Route path="/planning-fullpage" element={
+        <ProtectedRoute>
+          <FullPageLayout>
+            <PlanningInteractifFullPage />
+          </FullPageLayout>
+        </ProtectedRoute>
+      } />
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       
       {/* Page 404 */}
       <Route path="*" element={<NotFound />} />

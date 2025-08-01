@@ -46,8 +46,12 @@ import '@/styles/calendar.css';
 
 const usersService = {
   async getOuvriers() {
+<<<<<<< HEAD
           const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       const response = await fetch(`${baseUrl}/api/users?role=OUVRIER_ATELIER,OUVRIER_CHANTIER`);
+=======
+    const response = await fetch('http://localhost:8000/api/users?role=OUVRIER_ATELIER,OUVRIER_CHANTIER');
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     if (!response.ok) throw new Error('Erreur lors de la récupération des ouvriers');
     return response.json();
   },

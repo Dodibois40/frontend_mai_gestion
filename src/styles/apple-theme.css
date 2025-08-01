@@ -1,0 +1,1348 @@
+/* ===============================================
+   🍎 APPLE THEME - MAI GESTION
+   Design inspiré d'Apple avec touches terre et olive
+   =============================================== */
+
+/* Couleurs Apple avec touches terre et olive */
+:root {
+  /* Couleurs principales - Style Apple */
+  --color-primary: #007AFF;        /* Bleu Apple */
+  --color-secondary: #8B9B7A;      /* Vert olive subtil */
+  --color-accent: #A67C52;         /* Terre douce */
+  --color-earth-light: #D4C4B0;    /* Terre claire */
+  
+  /* Couleurs fonctionnelles - Apple Style */
+  --color-success: #34C759;        /* Vert Apple */
+  --color-warning: #FF9500;        /* Orange Apple */
+  --color-error: #FF3B30;          /* Rouge Apple */
+  --color-info: #5AC8FA;           /* Bleu clair Apple */
+  
+  /* Couleurs neutres - Minimalistes */
+  --color-background: #F2F2F7;     /* Gris très clair Apple */
+  --color-surface: #FFFFFF;        /* Blanc pur */
+  --color-card: #FFFFFF;           /* Blanc pour cartes */
+  --color-text-primary: #1C1C1E;   /* Noir Apple */
+  --color-text-secondary: #8E8E93; /* Gris moyen Apple */
+  --color-text-tertiary: #C7C7CC;  /* Gris clair Apple */
+  --color-border: #E5E5EA;         /* Bordure subtile Apple */
+  --color-separator: #F2F2F7;      /* Séparateur Apple */
+  
+  /* Espacements uniformes - Style Apple */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Bordures et ombres - Apple Design */
+  --border-radius: 16px;           /* Apple aime les coins très arrondis */
+  --border-radius-sm: 8px;         /* Petits éléments */
+  --border-radius-lg: 24px;        /* Gros éléments */
+  --box-shadow: 0 1px 3px rgba(0,0,0,0.05);        /* Ombre très subtile */
+  --box-shadow-lg: 0 4px 16px rgba(0,0,0,0.08);    /* Ombre douce Apple */
+  --box-shadow-card: 0 2px 12px rgba(0,0,0,0.04);  /* Cartes flottantes */
+  
+  /* Transitions Apple-like */
+  --transition-fast: 0.2s ease-out;
+  --transition-standard: 0.3s ease-out;
+  --transition-slow: 0.5s ease-out;
+}
+
+/* Typographie Apple */
+.title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.4;
+}
+
+.section-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.01em;
+}
+
+.card-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Structure principale - Design Apple */
+.affaires-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  min-height: 100vh;
+  background-color: var(--color-background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* BLOC 1 : En-tête + Statistiques + Filtres */
+.header-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.hero-header {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  padding: var(--spacing-xl);
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin: var(--spacing-lg) 0;
+}
+
+.stat-card {
+  background: var(--color-card);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--box-shadow-card);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-standard);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+.stat-card__icon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-background);
+}
+
+.stat-card__content {
+  flex: 1;
+}
+
+.stat-card__label {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.stat-card__value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.stat-card__trend {
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.stat-card__trend--up {
+  color: var(--color-success);
+}
+
+.stat-card__trend--down {
+  color: var(--color-error);
+}
+
+/* BLOC 2 : Tableau des affaires */
+.table-section {
+  flex: 1;
+  background: var(--color-card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-card);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  transition: var(--transition-standard);
+  min-height: 400px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-lg);
+  padding-bottom: var(--spacing-md);
+  border-bottom: 1px solid var(--color-separator);
+}
+
+.table-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+/* BLOC 3 : Planning équipe intégré */
+.planning-section {
+  background: var(--color-card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-card);
+  padding: var(--spacing-lg);
+  height: 500px;
+  overflow-y: auto;
+  border: 1px solid var(--color-border);
+  transition: var(--transition-standard);
+  position: relative;
+}
+
+.planning-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-separator);
+  position: sticky;
+  top: 0;
+  background: var(--color-card);
+  z-index: 10;
+}
+
+.planning-controls {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+}
+
+/* Navigation semaine */
+.week-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.week-label {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Grille planning */
+.planning-grid {
+  display: flex;
+  gap: var(--spacing-md);
+  height: 100%;
+}
+
+.affaires-column {
+  min-width: 200px;
+  background: var(--color-background);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+}
+
+.column-header {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--color-separator);
+}
+
+.affaire-item {
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+}
+
+.affaire-number {
+  font-weight: 600;
+  color: var(--color-primary);
+  display: block;
+}
+
+.affaire-client {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  display: block;
+}
+
+.affaire-date {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  display: block;
+}
+
+.calendar-grid {
+  flex: 1;
+  overflow-x: auto;
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.day-header {
+  text-align: center;
+  padding: var(--spacing-sm);
+  background: var(--color-background);
+  border-radius: var(--border-radius-sm);
+}
+
+.day-name {
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: block;
+}
+
+.day-date {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  display: block;
+}
+
+.calendar-body {
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.time-slots {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.time-slot {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background);
+  border-radius: var(--border-radius-sm);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.assignments-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.day-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+/* Coûts main d'œuvre */
+.cost-summary {
+  position: sticky;
+  bottom: 0;
+  background: var(--color-card);
+  border-top: 1px solid var(--color-separator);
+  padding: var(--spacing-md);
+  margin: var(--spacing-md) -var(--spacing-lg) -var(--spacing-lg);
+}
+
+/* Animations Apple */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.stat-card {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.assignment-badge {
+  animation: scaleIn 0.3s ease-out;
+  transition: all var(--transition-standard);
+}
+
+.assignment-badge:hover {
+  transform: scale(1.05);
+}
+
+/* ===========================================
+   STYLES COMPOSANTS UI - DESIGN APPLE
+   =========================================== */
+
+/* FilterButton Component */
+.filter-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  transition: var(--transition-standard);
+  position: relative;
+  overflow: hidden;
+}
+
+.filter-button:hover {
+  background: var(--color-background);
+  border-color: var(--color-primary);
+  color: var(--color-text-primary);
+}
+
+.filter-button--active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: white;
+}
+
+.filter-button--active:hover {
+  background: var(--color-primary);
+  opacity: 0.9;
+}
+
+.filter-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.filter-button__icon {
+  font-size: 1rem;
+}
+
+.filter-button__label {
+  font-size: inherit;
+}
+
+.filter-button__check {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* IconButton Component */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: var(--transition-standard);
+  position: relative;
+}
+
+.icon-button:hover {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.icon-button--xs {
+  width: 24px;
+  height: 24px;
+}
+
+.icon-button--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-button--default {
+  width: 40px;
+  height: 40px;
+}
+
+.icon-button--lg {
+  width: 48px;
+  height: 48px;
+}
+
+.icon-button--primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.icon-button--primary:hover {
+  background: var(--color-primary);
+  opacity: 0.9;
+}
+
+.icon-button--secondary {
+  background: var(--color-secondary);
+  color: white;
+}
+
+.icon-button--secondary:hover {
+  background: var(--color-secondary);
+  opacity: 0.9;
+}
+
+.icon-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.icon-button__icon {
+  font-size: 1rem;
+}
+
+/* AssignmentBadge Component */
+.assignment-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: var(--transition-standard);
+  position: relative;
+  cursor: default;
+  min-width: 80px;
+}
+
+.assignment-badge--draggable {
+  cursor: move;
+}
+
+.assignment-badge--draggable:hover {
+  transform: scale(1.02);
+  box-shadow: var(--box-shadow);
+}
+
+.assignment-badge--clickable {
+  cursor: pointer;
+}
+
+.assignment-badge--clickable:hover {
+  opacity: 0.9;
+}
+
+.assignment-badge--xs {
+  padding: 2px var(--spacing-xs);
+  font-size: 0.7rem;
+  min-width: 60px;
+}
+
+.assignment-badge--sm {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  font-size: 0.75rem;
+  min-width: 70px;
+}
+
+.assignment-badge--lg {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.9rem;
+  min-width: 100px;
+}
+
+.assignment-badge--secondary {
+  background: var(--color-secondary);
+}
+
+.assignment-badge--accent {
+  background: var(--color-accent);
+}
+
+.assignment-badge--success {
+  background: var(--color-success);
+}
+
+.assignment-badge--warning {
+  background: var(--color-warning);
+}
+
+.assignment-badge--error {
+  background: var(--color-error);
+}
+
+.assignment-badge--info {
+  background: var(--color-info);
+}
+
+.assignment-badge__name {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assignment-badge__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: var(--spacing-xs);
+}
+
+.assignment-badge__action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  font-size: 0.7rem;
+}
+
+.assignment-badge__action:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.assignment-badge__action--delete:hover {
+  background: var(--color-error);
+}
+
+/* DroppableZone Component */
+.droppable-zone {
+  min-height: 60px;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-surface);
+  transition: var(--transition-standard);
+  position: relative;
+}
+
+.droppable-zone--dragover {
+  border-color: var(--color-primary);
+  background: rgba(0, 122, 255, 0.05);
+}
+
+.droppable-zone--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.droppable-zone--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.droppable-zone__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  min-height: 60px;
+}
+
+.droppable-zone__placeholder-text {
+  font-size: 0.8rem;
+  color: var(--color-text-tertiary);
+  text-align: center;
+  font-style: italic;
+}
+
+.droppable-zone__content {
+  padding: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+/* Styles supplémentaires pour les variantes de couleur des StatCard */
+.stat-card--secondary .stat-card__icon {
+  background: rgba(139, 155, 122, 0.1);
+  color: var(--color-secondary);
+}
+
+.stat-card--accent .stat-card__icon {
+  background: rgba(166, 124, 82, 0.1);
+  color: var(--color-accent);
+}
+
+.stat-card--success .stat-card__icon {
+  background: rgba(52, 199, 89, 0.1);
+  color: var(--color-success);
+}
+
+.stat-card--warning .stat-card__icon {
+  background: rgba(255, 149, 0, 0.1);
+  color: var(--color-warning);
+}
+
+.stat-card--error .stat-card__icon {
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--color-error);
+}
+
+.stat-card--info .stat-card__icon {
+  background: rgba(90, 200, 250, 0.1);
+  color: var(--color-info);
+}
+
+.stat-card--clickable {
+  cursor: pointer;
+}
+
+.stat-card--clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-lg);
+}
+
+/* ===========================================
+   STYLES SECTIONS - DESIGN APPLE
+   =========================================== */
+
+/* Filtres équipe */
+.team-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-weight: 500;
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+/* Champ de recherche */
+.search-input-container {
+  position: relative;
+}
+
+.search-input {
+  width: 250px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: 0.9rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  transition: var(--transition-standard);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* Bouton d'ajout */
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background: var(--color-primary);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  transition: var(--transition-standard);
+}
+
+.add-button:hover {
+  background: var(--color-primary);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.add-button__icon {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.add-button__label {
+  font-size: inherit;
+}
+
+/* Container de contenu de table */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+/* Container de contenu de planning */
+.planning-container {
+  height: calc(100% - 60px);
+  overflow-y: auto;
+  position: relative;
+}
+
+/* États de chargement */
+.table-loading,
+.planning-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--color-text-secondary);
+}
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top: 3px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: var(--spacing-md);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Tableaux Apple-style */
+.affaires-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 0.9rem;
+}
+
+.affaires-table th {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--color-separator);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.affaires-table td {
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-separator);
+  color: var(--color-text-primary);
+}
+
+.affaires-table tr:hover {
+  background: var(--color-background);
+}
+
+.affaires-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===========================================
+   COMPOSANTS PLANNING AFFAIRE - DESIGN APPLE
+   =========================================== */
+
+/* PlanningAffaire Component */
+.planning-affaire {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.planning-affaire-loading,
+.planning-affaire-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: var(--color-text-secondary);
+}
+
+.planning-affaire-error button {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: var(--transition-standard);
+}
+
+.planning-affaire-error button:hover {
+  opacity: 0.9;
+}
+
+/* Zone de slot temporel */
+.time-slot-zone {
+  min-height: 80px;
+  margin-bottom: var(--spacing-xs);
+}
+
+.time-slot-zone:last-child {
+  margin-bottom: 0;
+}
+
+/* CoutMainOeuvreAffaire Component */
+.cout-main-oeuvre-affaire {
+  background: var(--color-surface);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  border: 1px solid var(--color-border);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.cout-main-oeuvre-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  padding: var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+.cout-main-oeuvre-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+.cout-resume {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  flex-wrap: wrap;
+}
+
+.cout-item-principal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.cout-item-principal .cout-label {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.cout-item-principal .cout-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cout-item-secondaire {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.cout-item-secondaire .cout-label {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.cout-item-secondaire .cout-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.cout-toggle-details {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition-standard);
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+}
+
+.cout-toggle-details:hover {
+  background: var(--color-background);
+}
+
+.cout-details {
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--color-separator);
+}
+
+.cout-details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.cout-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.cout-mutualisation-details {
+  background: var(--color-background);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.cout-mutualisation-details h4 {
+  margin: 0 0 var(--spacing-sm) 0;
+  color: var(--color-text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.cout-mutualisation-details p {
+  margin: var(--spacing-xs) 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.cout-mutualisation-details strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.cout-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background: rgba(255, 59, 48, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-error);
+  font-size: 0.9rem;
+}
+
+.retry-button {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-error);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: var(--transition-standard);
+}
+
+.retry-button:hover {
+  opacity: 0.9;
+}
+
+/* Responsive Design Apple */
+@media (max-width: 480px) {
+  .affaires-page-container {
+    padding: var(--spacing-sm);
+    gap: var(--spacing-md);
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+  
+  .hero-header {
+    padding: var(--spacing-lg);
+  }
+  
+  .planning-section {
+    height: 400px;
+  }
+  
+  .calendar-grid {
+    min-width: 600px;
+    overflow-x: auto;
+  }
+  
+  .table-header {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+  
+  .table-actions {
+    flex-wrap: wrap;
+  }
+  
+  .assignment-badge {
+    font-size: 0.75rem;
+    min-width: 60px;
+  }
+  
+  .filter-button {
+    font-size: 0.8rem;
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .table-section {
+    overflow-x: auto;
+  }
+  
+  .planning-header {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .planning-controls {
+    flex-wrap: wrap;
+  }
+  
+  .stat-card {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (min-width: 1200px) {
+  .affaires-page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .planning-section {
+    height: 600px;
+  }
+}
+
+/* ===========================================
+   STYLES PLANNING ÉQUIPE INTÉGRÉ
+   =========================================== */
+
+.planning-equipe-integre {
+  background: var(--color-card);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--box-shadow-card);
+  border: 1px solid var(--color-border);
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+}
+
+.planning-equipe-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  height: 100%;
+}
+
+.planning-navigation {
+  flex-shrink: 0;
+  padding: var(--spacing-sm);
+  background: var(--color-background);
+  border-radius: var(--border-radius-sm);
+}
+
+.planning-main-content {
+  flex: 1;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+.planning-sidebar {
+  flex-shrink: 0;
+  width: 300px;
+}
+
+.planning-grid-container {
+  flex: 1;
+  overflow: auto;
+  background: var(--color-surface);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+}
+
+.planning-ouvriers-horizontal {
+  flex-shrink: 0;
+  background: var(--color-background);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+}
+
+.planning-costs {
+  flex-shrink: 0;
+  background: var(--color-surface);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-md);
+}
+
+/* Intégration dans la section planning */
+.planning-section .planning-container {
+  padding: 0;
+  background: transparent;
+}
+
+.planning-section .planning-equipe-integre {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Styles spécifiques pour l'intégration dans la page des affaires */
+.affaires-page-container .planning-section {
+  height: auto;
+  min-height: 600px;
+  max-height: 800px;
+}
+
+.planning-equipe-affaires {
+  height: 100%;
+}
+
+.planning-equipe-affaires .planning-equipe-layout {
+  height: 100%;
+}
+
+.planning-equipe-affaires .planning-main-content {
+  max-height: 400px;
+}
+
+.planning-equipe-affaires .planning-grid-container {
+  max-height: 400px;
+}
+
+/* Responsivité pour le planning équipe intégré */
+@media (max-width: 1200px) {
+  .planning-main-content {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+  
+  .planning-sidebar {
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .planning-equipe-affaires .planning-main-content {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .planning-equipe-integre {
+    padding: var(--spacing-md);
+  }
+  
+  .planning-equipe-layout {
+    gap: var(--spacing-md);
+  }
+  
+  .planning-navigation {
+    padding: var(--spacing-xs);
+  }
+  
+  .planning-main-content {
+    flex-direction: column;
+    min-height: 300px;
+  }
+  
+  .planning-sidebar {
+    width: 100%;
+    max-height: 150px;
+  }
+  
+  .planning-equipe-affaires .planning-grid-container {
+    max-height: 300px;
+  }
+} 

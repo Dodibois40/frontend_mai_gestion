@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Estimation Nettoyée - MAI-GESTION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .verification-box {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f9ff 100%);
+            border: 2px solid #22c55e;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+        }
+
+        .verification-box h2 {
+            color: #16a34a;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .removed-items {
+            background: linear-gradient(135deg, #fef2f2 0%, #fdf2f8 100%);
+            border: 2px solid #ef4444;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
+        }
+
+        .removed-items h2 {
+            color: #dc2626;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kept-items {
+            background: linear-gradient(135deg, #f0f9ff 0%, #eff6ff 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+
+        .kept-items h2 {
+            color: #2563eb;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .items-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .items-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .items-list li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .x-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ef4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .test-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin: 10px 5px;
+        }
+
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+        }
+
+        .summary h2 {
+            color: #d97706;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #f59e0b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✨ Estimation Nettoyée - Vérification</h1>
+        
+        <div class="verification-box">
+            <h2>
+                <span class="check-icon">✓</span>
+                Nettoyage Terminé
+            </h2>
+            <p>Les éléments indésirables ont été supprimés avec succès du composant BlocAchats. L'estimation se concentre maintenant uniquement sur les aspects financiers.</p>
+        </div>
+
+        <div class="removed-items">
+            <h2>
+                <span class="x-icon">✗</span>
+                Éléments Supprimés
+            </h2>
+            <ul class="items-list">
+                <li>
+                    <span class="x-icon">✗</span>
+                    <strong>Délai de livraison</strong> - Champ avec saisie en jours
+                </li>
+                <li>
+                    <span class="x-icon">✗</span>
+                    <strong>Marge d'erreur</strong> - Champ avec saisie en pourcentage
+                </li>
+                <li>
+                    <span class="x-icon">✗</span>
+                    <strong>Fournisseurs principaux</strong> - Liste des fournisseurs avec spécialités
+                </li>
+                <li>
+                    <span class="x-icon">✗</span>
+                    <strong>Section "Informations complémentaires"</strong> - Conteneur des champs supprimés
+                </li>
+            </ul>
+        </div>
+
+        <div class="kept-items">
+            <h2>
+                <span class="info-icon">i</span>
+                Éléments Conservés (Pertinents pour l'Estimation)
+            </h2>
+            <ul class="items-list">
+                <li>
+                    <span class="check-icon">✓</span>
+                    <strong>Montant total des achats</strong> - Calcul automatique (20% du devis)
+                </li>
+                <li>
+                    <span class="check-icon">✓</span>
+                    <strong>Répartition par catégorie</strong> - Bois, Quincaillerie, Autres
+                </li>
+                <li>
+                    <span class="check-icon">✓</span>
+                    <strong>Pourcentages personnalisables</strong> - Ajustement des répartitions
+                </li>
+                <li>
+                    <span class="check-icon">✓</span>
+                    <strong>Ajout/Suppression de catégories</strong> - Gestion dynamique
+                </li>
+                <li>
+                    <span class="check-icon">✓</span>
+                    <strong>Résumé de l'estimation</strong> - Statistiques des catégories
+                </li>
+            </ul>
+        </div>
+
+        <div class="summary">
+            <h2>
+                <span class="warning-icon">!</span>
+                Résumé des Modifications
+            </h2>
+            <p><strong>Objectif :</strong> Recentrer l'onglet "Estimation" sur les aspects purement financiers et de calcul.</p>
+            <br>
+            <p><strong>Changements :</strong></p>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>• Suppression des éléments de gestion opérationnelle (délais, fournisseurs)</li>
+                <li>• Conservation des outils de calcul et d'estimation financière</li>
+                <li>• Simplification de l'interface utilisateur</li>
+                <li>• Cohérence avec l'objectif de l'onglet "Estimation"</li>
+            </ul>
+        </div>
+
+        <div class="actions">
+            <button class="test-button" onclick="window.location.href='http://localhost:8080'">
+                🌐 Ouvrir l'Application
+            </button>
+            <button class="test-button" onclick="window.location.href='http://localhost:8080/affaires'">
+                📊 Tester l'Estimation
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Vérification automatique des serveurs
+        console.log('🔍 Vérification des serveurs...');
+        
+        // Test Backend
+        fetch('http://localhost:8000')
+            .then(response => {
+                console.log('✅ Backend accessible sur port 8000');
+                document.body.style.borderLeft = '5px solid #22c55e';
+            })
+            .catch(error => {
+                console.error('❌ Backend inaccessible:', error);
+                document.body.style.borderLeft = '5px solid #ef4444';
+            });
+
+        // Test Frontend
+        console.log('✅ Frontend accessible sur port 8080 (vous êtes dessus !)');
+        
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.verification-box, .removed-items, .kept-items, .summary');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    el.style.transition = 'all 0.6s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html> 

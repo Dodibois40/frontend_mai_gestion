@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Modal Dates - Estimation Affaires</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #007AFF 0%, #8B9B7A 50%, #A67C52 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .test-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .status {
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .success { background: rgba(0, 255, 0, 0.2); color: #00ff00; }
+        .info { background: rgba(0, 122, 255, 0.2); color: #66d9ff; }
+        .warning { background: rgba(255, 193, 7, 0.2); color: #ffeb3b; }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .feature-list li:before {
+            content: "✨ ";
+            margin-right: 8px;
+        }
+        button {
+            background: linear-gradient(135deg, #007AFF, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+        }
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .highlight {
+            background: rgba(255, 255, 0, 0.2);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Test Modal Dates - Estimation Affaires</h1>
+        
+        <div class="status success">
+            <span>✅</span>
+            <span>Fonctionnalité Modal des Dates implémentée avec succès !</span>
+        </div>
+        
+        <div class="test-card">
+            <h2>📋 Résumé de l'Amélioration</h2>
+            <p>L'amélioration ajoutée permet de saisir les dates de planification lors de la validation du devis :</p>
+            <ul class="feature-list">
+                <li>Modal élégant style Apple avec design terre/vert olive</li>
+                <li>Saisie de la date de commencement de l'affaire</li>
+                <li>Saisie de la date de réception prévue</li>
+                <li>Calcul automatique de la durée du projet</li>
+                <li>Validation des dates (réception après commencement)</li>
+                <li>Intégration dans l'estimation finale</li>
+            </ul>
+        </div>
+        
+        <div class="test-card">
+            <h2>🔄 Workflow Modifié</h2>
+            <div class="status info">
+                <span>1️⃣</span>
+                <span>Utilisateur saisit le montant du devis</span>
+            </div>
+            <div class="status info">
+                <span>2️⃣</span>
+                <span>Calcul automatique de l'estimation (achats, main d'œuvre, etc.)</span>
+            </div>
+            <div class="status warning">
+                <span>🆕</span>
+                <span><strong>Modal des dates s'ouvre automatiquement</strong></span>
+            </div>
+            <div class="status info">
+                <span>3️⃣</span>
+                <span>Utilisateur saisit les dates de commencement et réception</span>
+            </div>
+            <div class="status info">
+                <span>4️⃣</span>
+                <span>Finalisation de l'estimation avec synchronisation du planning</span>
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h2>🎨 Composants Créés</h2>
+            <div class="code-block">
+<strong>DatesPlanificationModal.jsx</strong>
+├── Modal responsive avec design Apple
+├── Validation des dates en temps réel
+├── Affichage du résumé de l'affaire
+├── Calcul dynamique de la durée
+└── Animations et transitions fluides
+            </div>
+            
+            <div class="code-block">
+<strong>BlocMontant.jsx (modifié)</strong>
+├── Intégration du modal des dates
+├── Workflow de validation en 2 étapes
+├── Affichage des dates dans le résumé
+└── Gestion des états temporaires
+            </div>
+        </div>
+        
+        <div class="test-card">
+            <h2>🧪 Test Manuel</h2>
+            <p>Pour tester la fonctionnalité :</p>
+            <ol style="color: #e0e0e0; line-height: 1.8;">
+                <li>Accéder à l'onglet <span class="highlight">Estimation</span> d'une affaire</li>
+                <li>Saisir un montant (ex: 10000)</li>
+                <li>Attendre que le modal des dates s'ouvre</li>
+                <li>Remplir les dates de commencement et réception</li>
+                <li>Valider pour finaliser l'estimation</li>
+            </ol>
+        </div>
+        
+        <div class="test-card">
+            <h2>🔧 Fichiers Modifiés</h2>
+            <ul class="feature-list">
+                <li><strong>DatesPlanificationModal.jsx</strong> - Nouveau composant modal</li>
+                <li><strong>BlocMontant.jsx</strong> - Intégration du modal</li>
+                <li><strong>Style Apple</strong> - Cohérence visuelle maintenue</li>
+            </ul>
+        </div>
+        
+        <div class="status success">
+            <span>🎉</span>
+            <span>Prêt pour l'étape 7 : Liaison estimation ↔ réel !</span>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button onclick="window.location.href='http://localhost:8080'">
+                🚀 Tester l'Application
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Animation d'entrée
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.test-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔑 Connexion Debug - Entreprise Organiser</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+        .status {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔑 Connexion Debug - Entreprise Organiser</h1>
+        <p>Outil de connexion rapide pour déboguer l'application.</p>
+        
+        <div class="status" id="status">
+            <strong>État :</strong> Déconnecté
+        </div>
+        
+        <h3>🚀 Connexion rapide :</h3>
+        <button onclick="loginAs('admin')">👨‍💼 Admin Système</button>
+        <button onclick="loginAs('chef')">🔧 Chef d'atelier</button>
+        <button onclick="loginAs('acheteur')">📦 Employé/Acheteur</button>
+        
+        <h3>🧹 Actions :</h3>
+        <button onclick="logout()">🚪 Déconnexion</button>
+        <button onclick="checkAuth()">🔍 Vérifier Auth</button>
+        <button onclick="goToApp()">🌐 Aller à l'app</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000/api';
+        const APP_URL = 'http://localhost:8080';
+        
+        const accounts = {
+            admin: { email: 'admin@exemple.fr', password: 'password123', name: 'Admin Système' },
+            chef: { email: 'chef@exemple.fr', password: 'password123', name: 'Chef d\'atelier' },
+            acheteur: { email: 'acheteur@exemple.fr', password: 'password123', name: 'Employé/Acheteur' }
+        };
+        
+        async function loginAs(role) {
+            const account = accounts[role];
+            if (!account) return;
+            
+            showResult('🔄 Connexion en cours...', 'info');
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: account.email,
+                        password: account.password
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    
+                    // Stocker le token et les données utilisateur
+                    localStorage.setItem('auth_token', data.accessToken);
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
+                    
+                    showResult(`✅ Connecté avec succès en tant que ${account.name}!`, 'success');
+                    updateStatus();
+                } else {
+                    const error = await response.json();
+                    showResult(`❌ Erreur: ${error.message}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Erreur de connexion: ${error.message}`, 'error');
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_data');
+            showResult('🚪 Déconnecté avec succès', 'info');
+            updateStatus();
+        }
+        
+        function checkAuth() {
+            const token = localStorage.getItem('auth_token');
+            const user = localStorage.getItem('user_data');
+            
+            if (token && user) {
+                const userData = JSON.parse(user);
+                showResult(`🔑 Connecté en tant que: ${userData.prenom} ${userData.nom} (${userData.role})`, 'success');
+            } else {
+                showResult('❌ Non connecté', 'error');
+            }
+            updateStatus();
+        }
+        
+        function goToApp() {
+            window.open(APP_URL, '_blank');
+        }
+        
+        function showResult(message, type = 'info') {
+            const result = document.getElementById('result');
+            const className = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            result.innerHTML = `<div class="${className}" style="margin: 10px 0; padding: 10px; border-radius: 6px;">${message}</div>`;
+        }
+        
+        function updateStatus() {
+            const status = document.getElementById('status');
+            const token = localStorage.getItem('auth_token');
+            const user = localStorage.getItem('user_data');
+            
+            if (token && user) {
+                const userData = JSON.parse(user);
+                status.innerHTML = `<strong>État :</strong> ✅ Connecté - ${userData.prenom} ${userData.nom} (${userData.role})`;
+                status.style.background = '#dcfce7';
+                status.style.color = '#166534';
+            } else {
+                status.innerHTML = `<strong>État :</strong> ❌ Déconnecté`;
+                status.style.background = '#fef2f2';
+                status.style.color = '#dc2626';
+            }
+        }
+        
+        // Vérifier l'état au chargement
+        updateStatus();
+    </script>
+</body>
+</html> 

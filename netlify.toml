@@ -28,7 +28,7 @@
   [headers.values]
     Content-Type = "application/javascript; charset=utf-8"
 
-[[headers]]  
+[[headers]]
   for = "*.mjs"
   [headers.values]
     Content-Type = "application/javascript; charset=utf-8"

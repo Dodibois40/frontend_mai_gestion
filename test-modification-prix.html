@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Modification Prix Achats & Fournitures</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        .test-section h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e9ecef;
+        }
+        .feature-card h3 {
+            color: #ff6b35;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        .feature-card p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .test-step {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .test-step h4 {
+            color: #1976d2;
+            margin: 0 0 10px 0;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: #0056b3;
+        }
+        .button.success {
+            background: #28a745;
+        }
+        .button.warning {
+            background: #ffc107;
+            color: #212529;
+        }
+        .button.danger {
+            background: #dc3545;
+        }
+        .calculation-example {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .arrow {
+            font-size: 1.5em;
+            color: #28a745;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🛒 Test - Modification Prix Achats & Fournitures</h1>
+        
+        <div class="test-section">
+            <h2>📋 Nouvelles Fonctionnalités Ajoutées</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>💰 Budget Total Modifiable</h3>
+                    <p>Le budget total alloué aux achats peut maintenant être modifié directement.</p>
+                    <div class="success">✅ Terminé - Champ Input avec validation</div>
+                    <div class="code-block">
+                        Budget: 24,313€ → 30,000€
+                        Auto-recalcul de toutes les catégories
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔄 Recalcul Automatique</h3>
+                    <p>Modification d'un montant → recalcul automatique des pourcentages et vice versa.</p>
+                    <div class="success">✅ Terminé - Logique bidirectionnelle</div>
+                    <div class="code-block">
+                        Bois: 15,000€ → 62% (auto-calculé)
+                        Quincaillerie: 25% → 6,078€ (auto-calculé)
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚠️ Validation du Budget</h3>
+                    <p>Alertes visuelles pour dépassement, sous-budget, ou équilibre parfait.</p>
+                    <div class="success">✅ Terminé - Bandeau coloré avec détails</div>
+                    <div class="code-block">
+                        🔴 Dépassement: 25,000€ / 24,313€ (+687€)
+                        🔵 Sous-budget: 22,000€ / 24,313€ (-2,313€)
+                        🟢 Équilibré: 24,313€ / 24,313€ (parfait)
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🎨 Couleurs Intelligentes</h3>
+                    <p>Les totaux changent de couleur selon la situation budgétaire.</p>
+                    <div class="success">✅ Terminé - Système de couleurs dynamique</div>
+                    <div class="code-block">
+                        Vert: Budget équilibré ✅
+                        Rouge: Dépassement ⚠️
+                        Bleu: Sous-budget ℹ️
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Scénarios de Test</h2>
+            
+            <div class="test-step">
+                <h4>1. Modification du Budget Total</h4>
+                <p><strong>Test :</strong> Changer le budget de 24,313€ à 30,000€</p>
+                <div class="calculation-example">
+                    Avant: Budget 24,313€
+                    - Bois: 60% = 14,588€
+                    - Quincaillerie: 25% = 6,078€
+                    - Autres: 15% = 3,647€
+                    
+                    <span class="arrow">→</span>
+                    
+                    Après: Budget 30,000€ (modifié)
+                    - Bois: 60% = 18,000€ (auto-recalculé)
+                    - Quincaillerie: 25% = 7,500€ (auto-recalculé)
+                    - Autres: 15% = 4,500€ (auto-recalculé)
+                </div>
+            </div>
+            
+            <div class="test-step">
+                <h4>2. Modification d'un Montant de Catégorie</h4>
+                <p><strong>Test :</strong> Modifier le montant du bois de 14,588€ à 20,000€</p>
+                <div class="calculation-example">
+                    Avant: Bois 14,588€ (60%)
+                    Budget: 24,313€
+                    
+                    <span class="arrow">→</span>
+                    
+                    Après: Bois 20,000€ (82%) (auto-recalculé)
+                    Budget: 24,313€ (inchangé)
+                    Total: 28,647€ → Dépassement de +4,334€
+                </div>
+                <div class="error">⚠️ Alerte dépassement affichée</div>
+            </div>
+            
+            <div class="test-step">
+                <h4>3. Ajout d'une Nouvelle Catégorie</h4>
+                <p><strong>Test :</strong> Ajouter "Peinture" à 2,000€</p>
+                <div class="calculation-example">
+                    Nouvelle catégorie: Peinture 2,000€
+                    Pourcentage auto-calculé: 8% (2,000€ / 24,313€)
+                    Couleur: Générée automatiquement
+                </div>
+            </div>
+            
+            <div class="test-step">
+                <h4>4. Validation Budget Parfait</h4>
+                <p><strong>Test :</strong> Ajuster les montants pour égaler exactement le budget</p>
+                <div class="calculation-example">
+                    Budget: 24,313€
+                    - Bois: 15,000€ (62%)
+                    - Quincaillerie: 6,000€ (25%)
+                    - Autres: 3,313€ (13%)
+                    Total: 24,313€ = 100% ✅
+                </div>
+                <div class="success">🟢 Budget parfaitement équilibré</div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>📊 Indicateurs Visuels</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🏷️ Badges de Statut</h3>
+                    <p>Affichage temps réel du statut budgétaire</p>
+                    <div class="highlight">24,313€ / 24,313€</div> - Budget équilibré<br>
+                    <div class="highlight">26,000€ / 24,313€</div> - Dépassement<br>
+                    <div class="highlight">22,000€ / 24,313€</div> - Sous-budget
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📈 Pourcentages Dynamiques</h3>
+                    <p>Mise à jour automatique des pourcentages</p>
+                    <div class="highlight">Bois: 15,000€ (62%)</div><br>
+                    <div class="highlight">Quincaillerie: 6,000€ (25%)</div><br>
+                    <div class="highlight">Autres: 3,313€ (13%)</div>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>⚡ Alertes Instantanées</h3>
+                    <p>Notifications visuelles en temps réel</p>
+                    <div class="error">🔴 Dépassement de budget (+1,687€)</div>
+                    <div class="warning">🔵 Sous le budget (-2,313€)</div>
+                    <div class="success">🟢 Budget parfaitement équilibré</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>🎯 Instructions de Test</h2>
+            <ol>
+                <li><strong>Ouvrir l'onglet Estimation</strong> d'une affaire</li>
+                <li><strong>Cliquer sur "Modifier"</strong> dans le bloc Achats & Fournitures</li>
+                <li><strong>Modifier le budget total</strong> - observer le recalcul automatique</li>
+                <li><strong>Changer un montant de catégorie</strong> - voir les pourcentages se mettre à jour</li>
+                <li><strong>Ajouter une nouvelle catégorie</strong> - vérifier le calcul automatique</li>
+                <li><strong>Créer un dépassement</strong> - observer l'alerte rouge</li>
+                <li><strong>Équilibrer le budget</strong> - voir l'indicateur vert</li>
+                <li><strong>Sauvegarder</strong> - confirmer la persistence des données</li>
+            </ol>
+        </div>
+        
+        <div class="test-section">
+            <h2>🔧 Améliorations Techniques</h2>
+            <ul>
+                <li><strong>Champs Input numériques</strong> avec validation min/max</li>
+                <li><strong>Recalcul bidirectionnel</strong> montant ↔ pourcentage</li>
+                <li><strong>Arrondi intelligent</strong> pour éviter les décimales</li>
+                <li><strong>Couleurs dynamiques</strong> basées sur le statut budgétaire</li>
+                <li><strong>Badges informatifs</strong> avec détails de dépassement</li>
+                <li><strong>Validation en temps réel</strong> avec feedback visuel</li>
+                <li><strong>Persistance des données</strong> avec sauvegarde complète</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>✅ Résultat Attendu</h2>
+            <div class="success">
+                <h3>🎉 Fonctionnalité Complète</h3>
+                <p>L'utilisateur peut maintenant modifier librement :</p>
+                <ul>
+                    <li>✅ Le budget total alloué aux achats</li>
+                    <li>✅ Les montants de chaque catégorie</li>
+                    <li>✅ Les noms des catégories</li>
+                    <li>✅ Ajouter/supprimer des catégories</li>
+                </ul>
+                <p>Avec recalcul automatique des pourcentages et validation du budget en temps réel.</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="http://localhost:8080" class="button success">🚀 Tester dans l'Application</a>
+            <a href="javascript:history.back()" class="button">← Retour</a>
+        </div>
+    </div>
+</body>
+</html> 

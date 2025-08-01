@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Édition Estimation - MAI-GESTION</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #A67C52 0%, #8B9B7A 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 30px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #A67C52;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #A67C52 0%, #8B9B7A 100%);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #A67C52 0%, #8B9B7A 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon svg {
+            width: 30px;
+            height: 30px;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #5a6c7d;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            display: flex;
+            align-items: center;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .test-section {
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .test-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .test-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .test-step {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #28a745;
+        }
+
+        .test-step h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .test-step p {
+            color: #5a6c7d;
+            font-size: 0.9rem;
+        }
+
+        .url-section {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .url-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #A67C52 0%, #8B9B7A 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .url-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .status-new {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-improved {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #b8daff;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container {
+            animation: fadeIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Test Édition Estimation</h1>
+            <p>Nouvelles fonctionnalités d'édition pour Équipe & Ressources et Achats & Fournitures</p>
+        </div>
+
+        <div class="content">
+            <!-- Section URL -->
+            <div class="url-section">
+                <h2>🚀 Tester les nouvelles fonctionnalités</h2>
+                <p style="margin-bottom: 20px;">Accédez à l'onglet "Estimation" d'une affaire pour tester les nouvelles fonctionnalités d'édition</p>
+                <a href="http://localhost:8080/affaires" class="url-link">
+                    Ouvrir l'application MAI-GESTION
+                </a>
+            </div>
+
+            <!-- Nouvelles fonctionnalités -->
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 6V4H13V6L7 7V9H21M20 10H4V22H20V10Z"/>
+                        </svg>
+                    </div>
+                    <h3>Équipe & Ressources</h3>
+                    <span class="status-badge status-new">Nouvelle fonctionnalité</span>
+                    <p>Section maintenant entièrement éditable avec gestion avancée des ressources humaines.</p>
+                    <ul class="feature-list">
+                        <li>Modifier le nombre de personnes (1-10)</li>
+                        <li>Ajuster la répartition fabrication/pose</li>
+                        <li>Personnaliser le taux horaire</li>
+                        <li>Visualiser les compétences requises</li>
+                        <li>Calculer automatiquement les demi-journées</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 4C3 3.45 3.45 3 4 3H20C20.55 3 21 3.45 21 4V8C21 8.55 20.55 9 20 9H4C3.45 9 3 8.55 3 8V4M3 10H21V12H3V10M3 13H21V15H3V13M3 16H21V18H3V16M3 19H21V21H3V19Z"/>
+                        </svg>
+                    </div>
+                    <h3>Achats & Fournitures</h3>
+                    <span class="status-badge status-new">Nouvelle fonctionnalité</span>
+                    <p>Gestion complète des achats avec catégories personnalisables et suivi des fournisseurs.</p>
+                    <ul class="feature-list">
+                        <li>Éditer les catégories d'achats</li>
+                        <li>Ajuster les pourcentages par catégorie</li>
+                        <li>Ajouter/supprimer des catégories</li>
+                        <li>Configurer délais et marges d'erreur</li>
+                        <li>Gérer les fournisseurs principaux</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Instructions de test -->
+            <div class="test-section">
+                <h2>📋 Instructions de Test</h2>
+                <div class="test-steps">
+                    <div class="test-step">
+                        <h4>1. Accéder à l'affaire</h4>
+                        <p>Naviguez vers la liste des affaires et sélectionnez une affaire existante</p>
+                    </div>
+                    <div class="test-step">
+                        <h4>2. Ouvrir l'onglet Estimation</h4>
+                        <p>Cliquez sur l'onglet "Estimation" 🧮 dans les détails de l'affaire</p>
+                    </div>
+                    <div class="test-step">
+                        <h4>3. Faire une estimation</h4>
+                        <p>Saisissez un montant (ex: 10000€) et validez avec Entrée ou le bouton</p>
+                    </div>
+                    <div class="test-step">
+                        <h4>4. Tester l'édition Équipe</h4>
+                        <p>Cliquez sur "Modifier" dans la section Équipe & Ressources</p>
+                    </div>
+                    <div class="test-step">
+                        <h4>5. Tester l'édition Achats</h4>
+                        <p>Cliquez sur "Modifier" dans la section Achats & Fournitures</p>
+                    </div>
+                    <div class="test-step">
+                        <h4>6. Sauvegarder</h4>
+                        <p>Modifiez les valeurs et cliquez sur "Sauvegarder" pour valider</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fonctionnalités d'édition détaillées -->
+            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 15px; padding: 30px; margin-bottom: 30px;">
+                <h2>🎛️ Fonctionnalités d'Édition Détaillées</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 20px;">
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #A67C52;">
+                        <h3 style="color: #A67C52; margin-bottom: 15px;">👥 Équipe & Ressources</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0; color: #495057;">🔢 Nombre de personnes : Boutons +/- ou saisie directe</li>
+                            <li style="padding: 5px 0; color: #495057;">📊 Répartition : Sliders fabrication/pose avec pourcentages</li>
+                            <li style="padding: 5px 0; color: #495057;">💰 Taux horaire : Personnalisable (50-150€/h)</li>
+                            <li style="padding: 5px 0; color: #495057;">🏷️ Compétences : Tags automatiques par type</li>
+                            <li style="padding: 5px 0; color: #495057;">📅 Calcul temps : Mise à jour automatique</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: white; padding: 20px; border-radius: 10px; border-left: 4px solid #8B9B7A;">
+                        <h3 style="color: #8B9B7A; margin-bottom: 15px;">🛒 Achats & Fournitures</h3>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0; color: #495057;">📦 Catégories : Édition nom et pourcentage</li>
+                            <li style="padding: 5px 0; color: #495057;">➕ Ajout/suppression : Nouvelles catégories personnalisées</li>
+                            <li style="padding: 5px 0; color: #495057;">🎨 Couleurs : Attribution automatique par catégorie</li>
+                            <li style="padding: 5px 0; color: #495057;">📍 Délais : Configuration livraison (1-30 jours)</li>
+                            <li style="padding: 5px 0; color: #495057;">📈 Marge d'erreur : Ajustable (0-50%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Validation et contrôles -->
+            <div style="background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%); border-radius: 15px; padding: 30px;">
+                <h2>✅ Validation et Contrôles</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #28a745; margin-bottom: 10px;">🎯 Cohérence des données</h4>
+                        <p style="color: #5a6c7d; font-size: 0.9rem;">Vérification automatique des pourcentages et totaux</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #28a745; margin-bottom: 10px;">🔄 Synchronisation</h4>
+                        <p style="color: #5a6c7d; font-size: 0.9rem;">Mise à jour en temps réel du camembert et des totaux</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #28a745; margin-bottom: 10px;">💾 Sauvegarde</h4>
+                        <p style="color: #5a6c7d; font-size: 0.9rem;">Confirmation avant perte de données non sauvegardées</p>
+                    </div>
+                    <div style="background: white; padding: 15px; border-radius: 8px;">
+                        <h4 style="color: #28a745; margin-bottom: 10px;">🚨 Alertes</h4>
+                        <p style="color: #5a6c7d; font-size: 0.9rem;">Notifications visuelles pour les incohérences</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>✨ Nouvelles fonctionnalités d'édition disponibles - MAI-GESTION v2.0 ✨</p>
+        </div>
+    </div>
+</body>
+</html> 

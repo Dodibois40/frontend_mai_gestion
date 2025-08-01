@@ -365,11 +365,19 @@ const AffairesList = () => {
                    toast.error('Erreur lors du chargement');
                  }
                }}
+<<<<<<< HEAD
                              variant="outline"
               className="bg-red-600 hover:bg-red-700 text-white"
             >
               Voir toutes
             </Button>
+=======
+               variant="outline"
+               className="bg-red-600 hover:bg-red-700 text-white"
+             >
+               DEBUG: Voir TOUTES
+             </Button>
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
              <Button
                className="text-white font-bold shadow-lg hover:shadow-xl transition-all duration-200 backdrop-blur-sm"
                style={{ 

@@ -32,6 +32,10 @@ import {
   IconCalendar,
   IconClock,
   IconBug,
+<<<<<<< HEAD
+=======
+  IconRobot,
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
   IconAlertOctagon,
   IconClipboardList,
   IconExclamationMark,
@@ -61,13 +65,22 @@ const navigationConfig = [
     items: [
       { path: '/dashboard', label: 'Tableau de Bord', icon: IconDashboard, color: 'text-blue-700' },
       { path: '/notifications', label: 'Notifications', icon: IconBell, color: 'text-orange-600' },
+<<<<<<< HEAD
 
+=======
+      { path: '/pointages', label: 'Pointages', icon: IconClockHour4, color: 'text-lime-700' },
+      { path: '/gestion-heures', label: 'Gestion des heures', icon: IconClock, color: 'text-blue-700' },
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     ]
   },
   {
     group: 'Planification',
     items: [
+<<<<<<< HEAD
 
+=======
+      { path: '/planning-interactif', label: 'Planning Interactif', icon: IconCalendar, color: 'text-amber-700' },
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       { path: '/planning-equipe', label: 'Planning Équipe', icon: IconUsers, color: 'text-blue-700' },
       { path: '/ressources', label: 'Ressources', icon: IconTool, color: 'text-lime-700' },
       { path: '/temps-passe', label: 'Temps passé', icon: IconClock, color: 'text-red-700' },
@@ -77,6 +90,10 @@ const navigationConfig = [
     group: 'Analyses',
     items: [
       { path: '/analyses-avancees', label: 'Analyses avancées', icon: IconChartAreaLine, color: 'text-teal-600' },
+<<<<<<< HEAD
+=======
+      { path: '/claude', label: 'Claude Assistant', icon: IconRobot, color: 'text-red-700' },
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     ]
   },
   {
@@ -89,14 +106,21 @@ const navigationConfig = [
     group: 'Outils Production',
     items: [
       { path: '/opti-coupe', label: 'OptiCoupe', icon: IconTool, color: 'text-blue-700' },
+<<<<<<< HEAD
 
+=======
+      { path: '/caca-boudin', label: '💩 CACA Boudin', icon: IconPackage, color: 'text-yellow-700' },
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     ]
   },
   {
     group: 'Administration',
     items: [
       { path: '/users', label: 'Gestion de l\'Équipe', icon: IconUsers, color: 'text-orange-700' },
+<<<<<<< HEAD
       { path: '/ameliorations', label: '🚀 Améliorations CRM', icon: IconBug, color: 'text-purple-700' },
+=======
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       { path: '/parametres', label: 'Paramètres Utilisateur', icon: IconSettings, color: 'text-stone-500' },
       { path: '/parametres-entreprise', label: 'Paramètres Entreprise', icon: IconBuilding, color: 'text-blue-700' },
       { path: '/parametres-globaux', label: 'Paramètres Globaux', icon: IconSettings, color: 'text-gray-700' },
@@ -129,11 +153,23 @@ const Layout = () => {
 
   // Fonction helper pour gérer la navigation depuis le menu utilisateur
   const handleMenuNavigation = (path) => {
+<<<<<<< HEAD
     setUserMenuOpen(false);
     try {
       navigate(path);
     } catch (error) {
       console.error('Erreur de navigation:', error);
+=======
+    console.log('🚀 Navigation vers:', path);
+    console.log('🔍 État actuel de userMenuOpen:', userMenuOpen);
+    console.log('🔍 Fonction navigate disponible:', typeof navigate);
+    setUserMenuOpen(false);
+    try {
+      navigate(path);
+      console.log('✅ Navigation réussie vers:', path);
+    } catch (error) {
+      console.error('❌ Erreur de navigation:', error);
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     }
   };
 
@@ -442,6 +478,7 @@ const Layout = () => {
                 </button>
               )}
 
+<<<<<<< HEAD
               {/* Bouton raccourci Améliorations CRM */}
               <button
                 onClick={() => navigate('/ameliorations')}
@@ -453,6 +490,8 @@ const Layout = () => {
                 <span className="sm:hidden">🚀</span>
               </button>
 
+=======
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleTheme}
@@ -552,6 +591,10 @@ const Layout = () => {
                     <div className="border-t border-stone-200/50 dark:border-stone-700/50 my-2"></div>
                     <button
                       onClick={() => {
+<<<<<<< HEAD
+=======
+                        console.log('🖱️ Clic bouton Déconnexion');
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
                         setUserMenuOpen(false);
                         handleLogout();
                       }}

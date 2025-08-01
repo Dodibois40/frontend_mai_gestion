@@ -46,16 +46,30 @@ const PlanningEquipeIntegre = ({ className = '' }) => {
     return dates;
   };
 
+<<<<<<< HEAD
   // 🚀 OPTIMISATION : Charger séparément les données statiques et dynamiques
   const chargerDonneesInitiales = async () => {
     try {
       const [ouvriersData, affairesData] = await Promise.all([
         planningEquipeService.getOuvriersDisponibles(),
         planningEquipeService.getAffairesActives()
+=======
+  const chargerDonneesPlanning = async () => {
+    try {
+      setLoading(true);
+      const weekDates = getWeekDates();
+      const dateDebut = format(weekDates[0], 'yyyy-MM-dd');
+
+      const [ouvriersData, affairesData, planningData] = await Promise.all([
+        planningEquipeService.getOuvriersDisponibles(),
+        planningEquipeService.getAffairesActives(),
+        planningEquipeService.getPlanningHebdomadaire(dateDebut, false)
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       ]);
 
       setOuvriers(ouvriersData);
       setAffaires(affairesData);
+<<<<<<< HEAD
     } catch (error) {
       console.error('Erreur lors du chargement des données initiales:', error);
     }
@@ -84,6 +98,36 @@ const PlanningEquipeIntegre = ({ className = '' }) => {
         chargerDonneesInitiales(),
         chargerPlanningSeul()
       ]);
+=======
+      
+      // Convertir les affectations au format attendu
+      const affectationsConverties = {};
+      if (planningData && planningData.length) {
+        planningData.forEach(affectation => {
+          const date = new Date(affectation.dateAffectation).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+          const periode = affectation.periode.toLowerCase() === 'aprem' ? 'aprem' : 'matin';
+          const key = `${affectation.affaire.libelle}-${date}-${periode}`;
+          
+          if (!affectationsConverties[key]) {
+            affectationsConverties[key] = [];
+          }
+          
+          // NOUVELLE STRUCTURE - Stocker l'objet complet au lieu du simple nom
+          const affectationObj = {
+            id: affectation.id,
+            nom: affectation.user.prenom || affectation.user.nom,
+            user: affectation.user,
+            affaire: affectation.affaire,
+            periode: affectation.periode,
+            dateAffectation: affectation.dateAffectation
+          };
+          
+          affectationsConverties[key].push(affectationObj);
+        });
+      }
+      
+      setAffectations(affectationsConverties);
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
     } catch (error) {
       console.error('Erreur lors du chargement des données:', error);
     } finally {
@@ -91,6 +135,7 @@ const PlanningEquipeIntegre = ({ className = '' }) => {
     }
   };
 
+<<<<<<< HEAD
   // 🚀 OPTIMISATION : Fonction utilitaire pour convertir les affectations
   const convertirAffectations = (planningData) => {
     const affectationsConverties = {};
@@ -119,6 +164,8 @@ const PlanningEquipeIntegre = ({ className = '' }) => {
     return affectationsConverties;
   };
 
+=======
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
   const navigateWeek = (direction) => {
     const newDate = new Date(currentWeek);
     newDate.setDate(currentWeek.getDate() + (direction * 7));
@@ -256,7 +303,11 @@ Voulez-vous continuer ? Cela remplacera l'affectation existante.
         };
         
         await planningEquipeService.updateAffectation(data.id, updateData);
+<<<<<<< HEAD
         await chargerPlanningSeul(); // 🚀 OPTIMISATION : Charger seulement le planning
+=======
+        await chargerDonneesPlanning();
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       } else {
         // CRÉATION d'une nouvelle affectation
         
@@ -290,7 +341,11 @@ Solutions possibles :
         };
         
         await planningEquipeService.affecterOuvrier(affectationData);
+<<<<<<< HEAD
         await chargerPlanningSeul(); // 🚀 OPTIMISATION : Charger seulement le planning
+=======
+        await chargerDonneesPlanning();
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       }
       
       // Animation de succès
@@ -375,7 +430,11 @@ Solutions possibles :
       
       if (data.type === 'affectation') {
         await planningEquipeService.desaffecterOuvrier(data.id);
+<<<<<<< HEAD
         await chargerPlanningSeul(); // 🚀 OPTIMISATION : Charger seulement le planning
+=======
+        await chargerDonneesPlanning();
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       }
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);

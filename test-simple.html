@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007AFF;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test HTML Statique</h1>
+    <p>Si vous voyez ce message, le serveur web fonctionne correctement !</p>
+    <p>Timestamp: <span id="timestamp"></span></p>
+    
+    <script>
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+        console.log('Fichier HTML statique chargé avec succès');
+    </script>
+</body>
+</html> 

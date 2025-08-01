@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Date de Livraison - BDC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .date-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+        }
+        .highlight-today {
+            border: 2px solid #f59e0b !important;
+            background-color: #fef3c7 !important;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .badge-today { background: #fef3c7; color: #d97706; border: 1px solid #f59e0b; }
+        .badge-upcoming { background: #fef7cd; color: #d97706; border: 1px solid #f59e0b; }
+        .badge-overdue { background: #fee2e2; color: #dc2626; border: 1px solid #f87171; }
+        .badge-normal { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; }
+        .success { color: #10b981; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚚 Test de la Fonctionnalité Date de Livraison</h1>
+        
+        <div class="test-section">
+            <h2>✅ Fonctionnalités Implémentées</h2>
+            <ul>
+                <li>✅ Champ "Date de livraison prévue" dans tous les formulaires BDC</li>
+                <li>✅ Auto-sélection de catégorie basée sur le fournisseur</li>
+                <li>✅ Encadrement visuel pour la date actuelle</li>
+                <li>✅ Badges d'état pour les dates de livraison</li>
+                <li>✅ Prévention de sélection de dates passées</li>
+                <li>✅ Affichage dans la liste des BDC</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 Test des Styles de Date</h2>
+            <p>Testez différentes dates pour voir les styles appliqués :</p>
+            
+            <div style="margin: 10px 0;">
+                <label>Date de livraison : </label>
+                <input type="date" id="testDate" class="date-input" onchange="updateDateStyle()">
+                <span id="dateDisplay"></span>
+            </div>
+            
+            <div id="badgePreview" style="margin-top: 10px;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📋 Exemples de Mapping Fournisseur → Catégorie</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f3f4f6;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Fournisseur</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Catégorie Auto-sélectionnée</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Jours de Livraison</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Bouney</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">🪵 Bois</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Jeudi uniquement</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Foussier</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">🔧 Quincaillerie</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Lundi, Mercredi, Vendredi</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Autres fournisseurs</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Selon configuration</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">Variables</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="test-section">
+            <h2>🚀 Comment Tester</h2>
+            <ol>
+                <li>Ouvrez l'application principale (localhost:8080)</li>
+                <li>Naviguez vers une affaire</li>
+                <li>Cliquez sur "Nouveau BDC"</li>
+                <li>Sélectionnez un fournisseur (ex: "Bouney")</li>
+                <li>Vérifiez que la catégorie se sélectionne automatiquement</li>
+                <li>Sélectionnez la date d'aujourd'hui pour la livraison</li>
+                <li>Observez l'encadrement orange</li>
+                <li>Créez le BDC et vérifiez l'affichage dans la liste</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Statut du Test</h2>
+            <div id="testStatus">
+                <p class="success">✅ Backend: Migration appliquée avec succès</p>
+                <p class="success">✅ Frontend: Composants mis à jour</p>
+                <p class="success">✅ Utilitaires: Fonctions de date créées</p>
+                <p class="success">✅ Styles: Encadrement et badges implémentés</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simule les fonctions utilitaires pour le test
+        function isToday(date) {
+            if (!date) return false;
+            const today = new Date();
+            const compareDate = new Date(date);
+            return compareDate.toDateString() === today.toDateString();
+        }
+
+        function isUpcoming(date) {
+            if (!date) return false;
+            const today = new Date();
+            const compareDate = new Date(date);
+            const diffTime = compareDate.getTime() - today.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays > 0 && diffDays <= 3;
+        }
+
+        function isOverdue(date) {
+            if (!date) return false;
+            const today = new Date();
+            const compareDate = new Date(date);
+            return compareDate < today;
+        }
+
+        function getDeliveryDateStyle(date) {
+            if (isToday(date)) {
+                return {
+                    badge: 'badge-today',
+                    text: '📍 AUJOURD\'HUI',
+                    priority: 'high'
+                };
+            }
+            
+            if (isUpcoming(date)) {
+                return {
+                    badge: 'badge-upcoming',
+                    text: '⏰ BIENTÔT',
+                    priority: 'medium'
+                };
+            }
+            
+            if (isOverdue(date)) {
+                return {
+                    badge: 'badge-overdue',
+                    text: '⚠️ EN RETARD',
+                    priority: 'urgent'
+                };
+            }
+            
+            return {
+                badge: 'badge-normal',
+                text: '📅 PROGRAMMÉ',
+                priority: 'normal'
+            };
+        }
+
+        function updateDateStyle() {
+            const dateInput = document.getElementById('testDate');
+            const dateDisplay = document.getElementById('dateDisplay');
+            const badgePreview = document.getElementById('badgePreview');
+            
+            if (dateInput.value) {
+                const selectedDate = new Date(dateInput.value);
+                const style = getDeliveryDateStyle(selectedDate);
+                
+                // Mise à jour du style du champ
+                if (isToday(selectedDate)) {
+                    dateInput.className = 'date-input highlight-today';
+                } else {
+                    dateInput.className = 'date-input';
+                }
+                
+                // Affichage du badge
+                badgePreview.innerHTML = `
+                    <strong>Aperçu du badge:</strong>
+                    <span class="badge ${style.badge}">${style.text}</span>
+                    <br><small>Priorité: ${style.priority}</small>
+                `;
+                
+                dateDisplay.innerHTML = ` → ${selectedDate.toLocaleDateString('fr-FR')}`;
+            } else {
+                dateInput.className = 'date-input';
+                badgePreview.innerHTML = '';
+                dateDisplay.innerHTML = '';
+            }
+        }
+
+        // Initialiser avec la date d'aujourd'hui
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('testDate').value = today;
+            updateDateStyle();
+        });
+    </script>
+</body>
+</html> 

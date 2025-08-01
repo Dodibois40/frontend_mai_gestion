@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✅ Test Layout BDC - Corrections</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .card {
+            background: rgba(255,255,255,0.9);
+            color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            display: inline-block;
+            margin: 2px;
+        }
+        .badge-today { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+        .badge-soon { background: #fef9c3; color: #a16207; border: 2px solid #eab308; }
+        .badge-overdue { background: #fee2e2; color: #991b1b; border: 2px solid #ef4444; }
+        .badge-scheduled { background: #f3f4f6; color: #374151; border: 2px solid #9ca3af; }
+        .grid-fix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        .info-line {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            flex-wrap: wrap;
+        }
+        .icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        .truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 150px;
+        }
+        .test-section {
+            border: 2px solid #60a5fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Test des Corrections d'Affichage BDC</h1>
+        <p>Vérification des améliorations apportées au layout des bons de commande.</p>
+
+        <div class="test-section">
+            <h2>✅ Problème Résolu : Chevauchement de Texte</h2>
+            <p><strong>Avant :</strong> Grid 4 colonnes causait des chevauchements</p>
+            <p><strong>Après :</strong> Layout en 2 lignes avec grid 2 colonnes</p>
+        </div>
+
+        <div class="card">
+            <h3>🔧 Ancien Layout (Problématique)</h3>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 12px; color: #666;">
+                <div>💰 100,00 €</div>
+                <div>📅 Créé le 19/06/2025</div>
+                <div>📅 Livraison: 19/06/2025 <span class="badge badge-today">📍 AUJOURD'HUI</span></div>
+                <div>Fournisseur: Bouney avec un nom très long qui dépasse</div>
+            </div>
+            <p class="error">❌ Problème : Texte qui se chevauche et déborde</p>
+        </div>
+
+        <div class="card">
+            <h3>✅ Nouveau Layout (Corrigé)</h3>
+            <div style="margin: 15px 0;">
+                <!-- Première ligne -->
+                <div class="grid-fix">
+                    <div class="info-line">
+                        <span class="icon">💰</span>
+                        <span><strong>100,00 €</strong></span>
+                    </div>
+                    <div class="info-line">
+                        <span class="icon">📅</span>
+                        <span>Créé le 19/06/2025</span>
+                    </div>
+                </div>
+                
+                <!-- Deuxième ligne -->
+                <div class="grid-fix">
+                    <div class="info-line">
+                        <span class="icon">📅</span>
+                        <span>Livraison: 19/06/2025</span>
+                        <span class="badge badge-today">📍 AUJOURD'HUI</span>
+                    </div>
+                    <div class="info-line">
+                        <span><strong>Fournisseur:</strong></span>
+                        <span class="truncate">Bouney avec un nom très long qui est maintenant tronqué</span>
+                    </div>
+                </div>
+            </div>
+            <p class="success">✅ Solution : Séparation en lignes, troncature des textes longs</p>
+        </div>
+
+        <div class="test-section">
+            <h2>🎨 Améliorations Visuelles</h2>
+            <ul>
+                <li>✅ <strong>Espacement amélioré</strong> : Plus de respiration entre les éléments</li>
+                <li>✅ <strong>Troncature intelligente</strong> : Les textes longs sont coupés proprement</li>
+                <li>✅ <strong>Badges repositionnés</strong> : Plus de chevauchement avec le texte</li>
+                <li>✅ <strong>Layout responsive</strong> : Adaptation mobile améliorée</li>
+                <li>✅ <strong>Flex-shrink</strong> : Les badges ne se déforment plus</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📱 Test Responsive</h3>
+            <div style="max-width: 300px; border: 1px solid #ccc; padding: 10px; margin: 10px 0;">
+                <p><strong>Simulation mobile :</strong></p>
+                <div style="margin: 10px 0;">
+                    <div class="info-line">
+                        <span class="icon">💰</span>
+                        <span><strong>100,00 €</strong></span>
+                    </div>
+                    <div class="info-line">
+                        <span class="icon">📅</span>
+                        <span>Créé le 19/06/2025</span>
+                    </div>
+                </div>
+                <div style="margin: 10px 0;">
+                    <div class="info-line">
+                        <span class="icon">📅</span>
+                        <span>Livraison: 19/06/2025</span>
+                        <span class="badge badge-today">📍 AUJOURD'HUI</span>
+                    </div>
+                    <div class="info-line">
+                        <span><strong>Fournisseur:</strong></span>
+                        <span class="truncate">Bouney</span>
+                    </div>
+                </div>
+            </div>
+            <p class="success">✅ Le layout s'adapte correctement sur mobile</p>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Composants Corrigés</h2>
+            <ul>
+                <li>✅ <code>AffaireBdcSectionReal.jsx</code> - Layout principal corrigé</li>
+                <li>✅ <code>AffaireBdcSection.jsx</code> - Date de livraison ajoutée</li>
+                <li>✅ <code>AffaireBdc.jsx</code> - Colonne livraison dans tableau</li>
+                <li>✅ <code>BdcForm.jsx</code> - Déjà bien structuré</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>🧪 Test des Badges de Date</h3>
+            <div style="margin: 15px 0;">
+                <p><strong>Différents états de livraison :</strong></p>
+                <div style="margin: 10px 0;">
+                    <span class="badge badge-today">📍 AUJOURD'HUI</span>
+                    <span class="badge badge-soon">⏰ BIENTÔT</span>
+                    <span class="badge badge-overdue">⚠️ EN RETARD</span>
+                    <span class="badge badge-scheduled">📅 PROGRAMMÉ</span>
+                </div>
+                <p>Les badges s'affichent maintenant sans déborder ni se chevaucher.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; padding: 20px; background: rgba(34, 197, 94, 0.2); border-radius: 10px; border: 2px solid #22c55e;">
+            <h2 class="success">🎉 Corrections Appliquées !</h2>
+            <p>Le problème de chevauchement de texte dans l'affichage des BDC a été résolu.</p>
+            <p><strong>Testez maintenant dans l'application :</strong></p>
+            <ol style="text-align: left; max-width: 400px; margin: 0 auto;">
+                <li>Ouvrez une affaire avec des BDC</li>
+                <li>Vérifiez que les textes ne se chevauchent plus</li>
+                <li>Testez sur mobile pour la responsivité</li>
+                <li>Créez un nouveau BDC avec date de livraison</li>
+            </ol>
+        </div>
+
+        <div style="margin-top: 20px; text-align: center; font-size: 12px; opacity: 0.8;">
+            <p>🔧 Debug Layout Fix - BDC Display Corrections</p>
+            <p>Corrections appliquées le 19/06/2025</p>
+        </div>
+    </div>
+</body>
+</html> 

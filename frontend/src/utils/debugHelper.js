@@ -137,7 +137,11 @@ export const DebugHelper = {
     try {
       // Log des données envoyées
       console.log('Données utilisateur:', userData);
+<<<<<<< HEAD
       // Token log removed for security
+=======
+      console.log('Token auth:', BrowserCompat.getAuthToken());
+>>>>>>> 80cb882ec299a5d98cb64db70adf5b22510865cd
       console.log('Configuration navigateur:', BrowserCompat.getBrowserInfo());
 
       const response = await fetch('/api/users', {
